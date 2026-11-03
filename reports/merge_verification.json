@@ -1,0 +1,80 @@
+{
+  "scope": "Merged pipeline verification only; not final recommendation results",
+  "merged_branch": "origin/feature/developer-b",
+  "merged_revision": "5397b053797ce3eb9991fe97fc8658ec82126512",
+  "tests_passed": 44,
+  "offline_locked_environment": true,
+  "fixes": [
+    "Checkpoint selection stays at NDCG@10 independently of serving top_k.",
+    "Single-beam retrieval scores generated sequences against the full vocabulary."
+  ],
+  "fixture": {
+    "training": {
+      "steps": 300,
+      "runtime_s": 9.3,
+      "best_step": 100,
+      "best_ndcg@10": 1.0,
+      "selection": "train-set ndcg@10 (overfit diagnostic)",
+      "runtime": {
+        "python": "3.12.14",
+        "platform": "Linux-7.2.13-200.fc44.x86_64-x86_64-with-glibc2.43",
+        "cpu_count": 8,
+        "cuda_available": false,
+        "gpu": null,
+        "packages": {
+          "numpy": "2.5.4",
+          "torch": "2.15.0+cpu",
+          "sentence-transformers": "5.7.0",
+          "scikit-learn": "1.9.1",
+          "PyYAML": "6.0.3",
+          "huggingface-hub": "1.33.0"
+        }
+      }
+    },
+    "prediction_export": {
+      "split": "test",
+      "users": 8,
+      "checkpoint_step": 100,
+      "mapping_hash": "f812bd1ed86e6e1f9dfbf0a0f7ebb5c014d1d05db7f66c6db5f48dc40e86d96b",
+      "decoding": "constrained-trie",
+      "num_beams": 20,
+      "k": 10,
+      "generation_seconds": 0.1,
+      "mean_returned": 10.0,
+      "fraction_full_k": 1.0,
+      "invalid_beams": 0
+    },
+    "evaluator_accepted_predictions": true
+  },
+  "real": {
+    "training_steps": 20,
+    "selection_users": 16,
+    "smoke_batch_size": 8,
+    "forward_backward_finite": true,
+    "label_roundtrips": 8,
+    "prediction_export": {
+      "split": "val",
+      "users": 2000,
+      "checkpoint_step": 20,
+      "mapping_hash": "688ea781e09ddfdb8ea1875a08858dc131f4c305f33b0e35753ec1693a8ab260",
+      "decoding": "constrained-trie",
+      "num_beams": 20,
+      "k": 10,
+      "generation_seconds": 23.0,
+      "mean_returned": 10.0,
+      "fraction_full_k": 1.0,
+      "invalid_beams": 0
+    },
+    "all_generated_top1_ids_roundtrip": true,
+    "test_split_used": false,
+    "mapping_hash": "688ea781e09ddfdb8ea1875a08858dc131f4c305f33b0e35753ec1693a8ab260",
+    "full_trace": "artifacts/verification/real/reports/full_pipeline_trace.json"
+  },
+  "frozen_artifact_hashes_unchanged": true,
+  "published_A_reports_unchanged": true,
+  "local_artifacts": "artifacts/verification/",
+  "limitations": [
+    "Real verification run is only 20 training steps; no model-quality claim.",
+    "A full recommendation training run, checkpoint selection, and final test assessment remain required."
+  ]
+}

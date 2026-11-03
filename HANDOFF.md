@@ -1,7 +1,23 @@
 # Developer A handoff — real artifacts ready, 2026-11-03
 
 Developer A's independent work is complete on real Beauty 2014 data. Developer
-B's recommender, model metrics and raw generation trace remain pending.
+B's branch is now merged and the combined pipeline is verified. A full
+recommendation experiment and final test metrics remain pending.
+
+## Merged pipeline verification
+
+- All 44 tests pass, including B's fixture overfit, checkpoint reload, beam-score
+  enumeration, and regressions for top-5 serving and single-beam generation.
+- The real-ID smoke test passes forward/backward, finite gradients and all eight
+  label round-trips with the frozen 7,154-item catalog.
+- A 300-step fixture CLI run reaches training NDCG@10=1.0; reload, prediction
+  export and A's evaluator work together.
+- A separate 20-step real-data verification run exercises training, checkpoint
+  selection/reload and validation prediction export. Its artifacts are under
+  `artifacts/verification/real/`, with an isolated report directory. This short
+  run is a mechanical check, not the final experiment. It never evaluates test.
+- See `reports/merge_verification.json` for measured verification results. The
+  published A-stage scores and frozen artifacts remain unchanged.
 
 ## Measured run
 
@@ -15,7 +31,7 @@ B's recommender, model metrics and raw generation trace remain pending.
 - Suffix usage: 7,101 zeros and 53 ones. All 7,154 four-code IDs are unique and
   round-trip through the maps. Repeat export was byte-identical.
 - Test popularity Recall@10: 0.0075; NDCG@10: 0.0027974684. These are baseline scores.
-- All 23 tests pass, including interruption/resume, gradients, metrics, collision
+- The A-stage checks include interruption/resume, gradients, metrics, collision
   handling, and a synthetic end-to-end run. Real cache reuse/export/diagnostics pass.
 
 Mapping hash: `688ea781e09ddfdb8ea1875a08858dc131f4c305f33b0e35753ec1693a8ab260`.
@@ -65,9 +81,11 @@ PAD=0, EOS=1, user offset=1026, vocabulary size=3026. Keep held-out targets out 
 training, use the full catalog, and allow repeated items. Select on validation,
 freeze the model, then evaluate test. Missing users receive empty predictions.
 
-The trace currently ends with a pending recommendation. Saved predictions resolve
-a ranked item to its known SID/title; B must supply raw generated tokens and scores
-to establish autoregressive generation. Do not label popularity as TIGER results.
+The published A-stage trace ends with a pending recommendation. The isolated
+verification run includes generated-token logs and a full example trace under
+`artifacts/verification/real/reports/`. Final experiment predictions still need
+their own trace. Do not label popularity or short verification scores as final
+TIGER results.
 
 ## Re-running A
 

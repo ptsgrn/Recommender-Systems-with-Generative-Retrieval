@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "position_vocab_sizes": [
+    256,
+    256,
+    256,
+    256
+  ],
+  "offsets": [
+    2,
+    258,
+    514,
+    770
+  ],
+  "special_tokens": {
+    "PAD": 0,
+    "EOS": 1,
+    "decoder_start": 0
+  },
+  "user_bucket_count": 2000,
+  "user_offset": 1026,
+  "vocabulary_size": 3026,
+  "user_hash": "SHA-256 UTF-8 user_id interpreted as unsigned big-endian integer modulo 2000",
+  "hash_method": "SHA-256 of UTF-8 JSON: sort_keys=True, separators=(',', ':'), ensure_ascii=False",
+  "seed": 0,
+  "catalog_hash": "88fa464a4109ab27646c295120571f8470d34800c2f770f55d85ce0fe326e295",
+  "mapping_hash": "f812bd1ed86e6e1f9dfbf0a0f7ebb5c014d1d05db7f66c6db5f48dc40e86d96b"
+}

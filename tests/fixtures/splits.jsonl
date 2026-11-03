@@ -1,0 +1,8 @@
+{"user_id": "U0", "train_items": ["ITEM00", "ITEM01", "ITEM02", "ITEM03"], "val_item": "ITEM04", "test_item": "ITEM05"}
+{"user_id": "U1", "train_items": ["ITEM02", "ITEM03", "ITEM04", "ITEM05"], "val_item": "ITEM06", "test_item": "ITEM07"}
+{"user_id": "U2", "train_items": ["ITEM04", "ITEM05", "ITEM06", "ITEM07"], "val_item": "ITEM08", "test_item": "ITEM09"}
+{"user_id": "U3", "train_items": ["ITEM06", "ITEM07", "ITEM08", "ITEM09"], "val_item": "ITEM10", "test_item": "ITEM11"}
+{"user_id": "U4", "train_items": ["ITEM08", "ITEM09", "ITEM10", "ITEM11"], "val_item": "ITEM12", "test_item": "ITEM13"}
+{"user_id": "U5", "train_items": ["ITEM10", "ITEM11", "ITEM12", "ITEM13"], "val_item": "ITEM14", "test_item": "ITEM15"}
+{"user_id": "U6", "train_items": ["ITEM12", "ITEM13", "ITEM14", "ITEM15"], "val_item": "ITEM00", "test_item": "ITEM01"}
+{"user_id": "U7", "train_items": ["ITEM14", "ITEM15", "ITEM00", "ITEM01"], "val_item": "ITEM02", "test_item": "ITEM03"}

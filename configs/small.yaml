@@ -32,3 +32,24 @@ benchmark:
   steps: 100
   budget_seconds: 7200
   user_candidates: [2000, 500, 200]
+# Developer B: sequence model and generative retrieval.
+sequence:
+  max_history: 20           # latest items per encoder input -> at most 1 + 20*4 + 1 = 82 tokens
+recommender:
+  num_layers: 2
+  num_decoder_layers: 2
+  d_model: 128
+  num_heads: 4
+  d_kv: 32
+  d_ff: 512
+  dropout: 0.1
+  learning_rate: 0.001
+  weight_decay: 0.01
+  batch_size: 64
+  max_steps: 20000
+  eval_every: 1000
+  val_subset: 500           # fixed seeded validation users used for checkpoint selection
+retrieval:
+  num_beams: 20
+  top_k: 10
+  constrained: true         # catalog prefix trie (project adaptation, see docs/deviations.md)
