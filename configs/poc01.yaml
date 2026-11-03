@@ -1,0 +1,63 @@
+seed: 42
+device: cpu
+threads: 2
+raw_dir: data/raw
+data_dir: data/processed
+artifact_dir: artifacts
+report_dir: reports/poc01
+data:
+  users: 2000
+  min_interactions: 5
+  reviews_url: https://snap.stanford.edu/data/amazon/productGraph/categoryFiles/reviews_Beauty_5.json.gz
+  metadata_url: https://snap.stanford.edu/data/amazon/productGraph/categoryFiles/meta_Beauty.json.gz
+embedding:
+  model: sentence-transformers/sentence-t5-base
+  revision: fc5d4628481afbbaaacd7af6bb07cf9d3865f781
+  batch_size: 16
+  dimension: 768
+rqvae:
+  dimensions:
+  - 768
+  - 512
+  - 256
+  - 128
+  - 32
+  levels: 3
+  codebook_size: 256
+  beta: 0.25
+  learning_rate: 0.0001
+  batch_size: 256
+  cpu_batch_size: 16
+  epochs: 50
+  patience: 5
+  warmup_epochs: 10
+  warmup_learning_rate: 0.0001
+benchmark:
+  items: 100
+  steps: 100
+  budget_seconds: 7200
+  user_candidates:
+  - 2000
+  - 500
+  - 200
+sequence:
+  max_history: 20
+recommender:
+  num_layers: 2
+  num_decoder_layers: 2
+  d_model: 128
+  num_heads: 4
+  d_kv: 32
+  d_ff: 512
+  dropout: 0.1
+  learning_rate: 0.001
+  weight_decay: 0.01
+  batch_size: 64
+  max_steps: 5000
+  eval_every: 500
+  val_subset: 500
+  save_every: 100
+retrieval:
+  num_beams: 20
+  top_k: 10
+  constrained: true

@@ -47,3 +47,11 @@ def test_checkpoint_maps_evaluation_and_trace(tmp_path):
     assert trace["recommendation"]["item_id"] == ids[4]
     assert len(trace["history_tokens"]) == 18
     assert read_json(reports / "id_diagnostics.json")["mapping_hash"] == read_json(artifacts / "sid_manifest.json")["mapping_hash"]
+    from src.semantic_ids import offset_codes
+    manifest = read_json(artifacts / "sid_manifest.json")
+    generation_path = tmp_path / "generation.jsonl"
+    write_jsonl(generation_path, [{"user_id": "u", "beams": [{"tokens": offset_codes(first[ids[4]], manifest) + [1], "score": -3.0}]}])
+    inspect(config, predictions_path, generation_log_path=generation_path)
+    trace = read_json(reports / "example_trace.json")
+    assert trace["raw_generation"]["lookup_verified"]
+    assert trace["observed_item_encoding"]["metadata"]["item_id"] == ids[3]

@@ -8,6 +8,8 @@ The scope and task ownership are in
 [Developer B: sequence model and retrieval](#developer-b-sequence-model-and-retrieval).
 See [HANDOFF.md](HANDOFF.md) for the completed real-data ID run and integration commands.
 This is a small teaching implementation, not a reproduction of published scores.
+The bounded training, recovery, evaluation and trace protocol is in
+[docs/experiment.md](docs/experiment.md).
 
 ## Setup and verification
 
