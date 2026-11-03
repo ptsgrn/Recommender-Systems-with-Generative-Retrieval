@@ -1,0 +1,77 @@
+{
+  "experiment": "poc01",
+  "source_revision": "1e694d343d37ea6660a52c3ab45ad2a3fb8a19ba",
+  "config": "configs/poc01.yaml",
+  "config_sha256": "7cd40a4f99bb75f8f252018eeb6e975e2bd6fd9882e9fb723dd7ba86b77c3377",
+  "training_steps": 5000,
+  "checkpoint_selection": "highest NDCG@10 on a fixed seeded set of 500 validation users; earliest wins ties",
+  "test_policy": "one evaluation after selection; no automatic tuning or run extension based on test",
+  "run_manifest_sha256": "697549bf30e1b73d33cecb47d0ffd17146d962a5d7d27b45a6192f5145f15e71",
+  "identity": {
+    "sections": {
+      "sequence": {
+        "max_history": 20
+      },
+      "recommender": {
+        "num_layers": 2,
+        "num_decoder_layers": 2,
+        "d_model": 128,
+        "num_heads": 4,
+        "d_kv": 32,
+        "d_ff": 512,
+        "dropout": 0.1,
+        "learning_rate": 0.001,
+        "weight_decay": 0.01,
+        "batch_size": 64,
+        "max_steps": 5000,
+        "eval_every": 500,
+        "val_subset": 500,
+        "save_every": 100
+      },
+      "retrieval": {
+        "num_beams": 20,
+        "top_k": 10,
+        "constrained": true
+      }
+    },
+    "seed": 42,
+    "overfit": false,
+    "mapping_hash": "688ea781e09ddfdb8ea1875a08858dc131f4c305f33b0e35753ec1693a8ab260",
+    "catalog_hash": "51ffb69981900cc7a8044cb5c29c889104464016ad22c46e7c6ba76104e7b977",
+    "sid_manifest_sha256": "8d89de73fdb43947381f8e072213f915160870c494c62fd962987bac35b8562d",
+    "splits_sha256": "998000da4f873e1d3433f348da1d3a5292bb06d60b23825aa5513fc3d30e92fb",
+    "mapping_file_sha256": "3e802806e4dff02318e1f93a02086e8437b581a9da93d5a739b4280a46758151",
+    "validation_examples_hash": "657a93618a7a5907935cea33aacf7e0d2cd4acc8aa5d5def6829cda079a2fab3",
+    "environment": {
+      "python": "3.12.14",
+      "torch": "2.15.0+cpu",
+      "numpy": "2.5.4",
+      "transformers": "5.22.1",
+      "platform": "Linux-7.2.13-200.fc44.x86_64-x86_64-with-glibc2.43",
+      "device": "cpu",
+      "threads": 2
+    }
+  },
+  "benchmark": {
+    "steps": 100,
+    "seconds": 32.62214699600008,
+    "seconds_per_step": 0.3262214799899812,
+    "projected_optimization_minutes": 27.185123332498435
+  },
+  "scope": "one bounded POC run; no paper-level accuracy or superiority claim required",
+  "verification": {
+    "tests_passed": 57,
+    "exact_cpu_resume": true,
+    "atomic_checkpoint_write_failure_tested": true,
+    "signals_tested": [
+      "SIGINT",
+      "SIGTERM"
+    ],
+    "actual_run_recovery": {
+      "controlled_signal": "SIGINT",
+      "status": "interrupted",
+      "completed_step": 288,
+      "snapshot_sha256": "0da4ae51103dbc3e1d83dba8a944072bf3931881f87cad34850c82fff436423a"
+    }
+  }
+}

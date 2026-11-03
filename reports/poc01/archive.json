@@ -1,0 +1,12 @@
+{
+  "path": "artifacts/poc01_handoff.tar.gz",
+  "sha256": "073f7af5252b72f6e50b98dc424bc503bd0534451df9af75cbd1baf5957b1d9d",
+  "bytes": 66908520,
+  "members": 128,
+  "critical_member_hashes_verified": {
+    "artifacts/recommender/poc01/best/model.safetensors": "43051b12409c52dc48060120401d0b9b60ed261f8e6f11a7584931056a4a49d2",
+    "artifacts/recommender/poc01/latest.pt": "52452783471e10488ca10c4e4604a599763d3760da0f1838f7c4adc59cfd15c4",
+    "artifacts/sid_manifest.json": "8d89de73fdb43947381f8e072213f915160870c494c62fd962987bac35b8562d"
+  },
+  "note": "Archive includes reports up to creation; this checksum record is stored beside it and in Git to avoid a circular checksum."
+}

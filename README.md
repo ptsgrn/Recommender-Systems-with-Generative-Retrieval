@@ -11,6 +11,14 @@ This is a small teaching implementation, not a reproduction of published scores.
 The bounded training, recovery, evaluation and trace protocol is in
 [docs/experiment.md](docs/experiment.md).
 
+The completed 5,000-step POC selected checkpoint step 4,500 using validation data.
+On 2,000 test users, Recall@10 is **0.0235** and NDCG@10 is **0.011105**;
+training-only popularity scores **0.0075** and **0.002797**. See the
+[test comparison](reports/poc01/results_test.md),
+[experiment record](reports/poc01/experiment.json), and
+[verified prediction trace](reports/poc01/example_trace.json).
+These are one-run results on a small subset, not paper benchmark reproduction.
+
 ## Setup and verification
 
 Install [uv](https://docs.astral.sh/uv/), then run from the repository root:

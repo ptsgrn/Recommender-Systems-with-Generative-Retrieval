@@ -1,0 +1,171 @@
+{
+  "loss": 0.0004884274270599523,
+  "reconstruction": 0.00013968254358689687,
+  "codebook": 0.00027899590662222584,
+  "commitment": 0.00027899590662222584,
+  "active_codes": [
+    249,
+    249,
+    249
+  ],
+  "collision_rate": 0.007408442829186512,
+  "largest_collision_group": 2,
+  "mapping_hash": "688ea781e09ddfdb8ea1875a08858dc131f4c305f33b0e35753ec1693a8ab260",
+  "suffix_usage": {
+    "0": 7101,
+    "1": 53
+  },
+  "shared_first_code_examples": [
+    {
+      "code": 0,
+      "items": [
+        {
+          "item_id": "B000052WYL",
+          "title": "Maybelline New York Expert Eyes Moisturizing Eye Makeup Remover, 2.3 Fl. Oz.",
+          "category": "Beauty > Makeup > Eyes > Mascara"
+        },
+        {
+          "item_id": "B000Q44H9U",
+          "title": "REVIVA Liquid Mascara Brown 0.25 OZ",
+          "category": "Beauty > Makeup > Eyes > Mascara"
+        },
+        {
+          "item_id": "B000RO6ZDA",
+          "title": "CoverGirl Professional Remarkable Washable Waterproof Mascara, Black Brown 210, 0.3 Ounce",
+          "category": "Beauty > Makeup > Eyes > Mascara"
+        },
+        {
+          "item_id": "B000URYTOQ",
+          "title": "Ecco Bella Black Mascara",
+          "category": "Beauty > Makeup > Eyes > Mascara"
+        },
+        {
+          "item_id": "B000W9WZ34",
+          "title": "Maybelline New York Define-A-Lash Lengthening Washable Mascara, Very Black, 0.22 Fluid Ounce",
+          "category": "Beauty > Makeup > Eyes > Mascara"
+        }
+      ]
+    },
+    {
+      "code": 1,
+      "items": [
+        {
+          "item_id": "B0000Y8H3S",
+          "title": "Rogaine for Men Hair Regrowth Treatment, Extra Strength Original Unscented, Set of 3, 2-Ounce Bottles",
+          "category": "Beauty > Hair Care > Hair Loss Products > Hair Regrowth Treatments"
+        },
+        {
+          "item_id": "B00013TQRE",
+          "title": "Rogaine for Women Hair Regrowth Treatment 3- 2 ounce bottles",
+          "category": "Beauty > Hair Care > Hair Loss Products > Hair Regrowth Treatments"
+        },
+        {
+          "item_id": "B000HLH758",
+          "title": "Dabur Vatika Hair Oil, 300 ml Bottle",
+          "category": "Beauty > Hair Care > Hair & Scalp Treatments"
+        },
+        {
+          "item_id": "B000N2OC2C",
+          "title": "Joico K-pak Intense Hydrator, 33.8-ounce",
+          "category": "Beauty > Hair Care > Hair & Scalp Treatments"
+        },
+        {
+          "item_id": "B000QA7HNC",
+          "title": "Redken Color Extend Shampoo & Conditioner Liter Duo",
+          "category": "Beauty > Hair Care > Shampoo & Conditioner Sets"
+        }
+      ]
+    },
+    {
+      "code": 2,
+      "items": [
+        {
+          "item_id": "B000CECSAO",
+          "title": "OPI: Lacquer NLS86 Bubble Bath, 0.5 oz",
+          "category": "Beauty > Makeup > Nails > Nail Polish"
+        },
+        {
+          "item_id": "B00134O2C4",
+          "title": "OPI Expert Touch Lacquer Remover 4oz",
+          "category": "Beauty > Makeup > Nails > Nail Polish Remover"
+        },
+        {
+          "item_id": "B007HKO296",
+          "title": "IBD Just Gel Nail Polish, HRH, 0.5 Fluid Ounce",
+          "category": "Beauty > Makeup > Nails > Nail Polish"
+        },
+        {
+          "item_id": "B00AQH09DK",
+          "title": "OPI: Lacquer M45 Stay the Night, 0.5 oz",
+          "category": "Beauty > Skin Care > Hands & Nails > Hand Soaps"
+        },
+        {
+          "item_id": "B00AQH9F8U",
+          "title": "OPI: Lacquer M48 The Impossible, 0.5 oz",
+          "category": "Beauty > Skin Care > Hands & Nails > Hand Soaps"
+        }
+      ]
+    },
+    {
+      "code": 3,
+      "items": [
+        {
+          "item_id": "B000052YP6",
+          "title": "Neutrogena Norwegian Formula Hand Cream, Fragrance-Free (2 Ounce)",
+          "category": "Beauty > Skin Care > Hands & Nails > Hand Creams & Lotions"
+        },
+        {
+          "item_id": "B000053L6W",
+          "title": "Clubman Pinaud Virgin Island Bay Rum, 12 Ounce",
+          "category": "Beauty > Fragrance > Men's > Cologne"
+        },
+        {
+          "item_id": "B0000UTUW4",
+          "title": "Mrs. Meyer's Clean Day Liquid Hand Soap, Lavender, 12.5 Ounce Bottle",
+          "category": "Beauty > Skin Care > Body > Moisturizers > Lotions"
+        },
+        {
+          "item_id": "B0000ZLEX2",
+          "title": "Black Opium - Auric Blends Perfume Oils",
+          "category": "Beauty > Fragrance > Women's > Eau de Parfum"
+        },
+        {
+          "item_id": "B0002Z8SE8",
+          "title": "Spilo: MISC Big Bondini Plus Brush-On Glue, 0.5 oz",
+          "category": "Beauty > Bath & Body > Scrubs & Body Treatments > Body Scrubs"
+        }
+      ]
+    },
+    {
+      "code": 4,
+      "items": [
+        {
+          "item_id": "B00070QF20",
+          "title": "AcneFree Clear Skin System, 3-Step Kit (Purifying Cleanser, Renewing Toner, Repair Lotion)",
+          "category": "Beauty > Skin Care > Face > Sets & Kits"
+        },
+        {
+          "item_id": "B0009GGY96",
+          "title": "AcneFree Acne and Blackhead Terminator (.75 Ounce Tube)",
+          "category": "Beauty > Skin Care > Face"
+        },
+        {
+          "item_id": "B000GDDKJO",
+          "title": "Murad Acne Clarifying Mask, 2: Treat/Repair, 2.65 oz (75 g)",
+          "category": "Beauty > Skin Care > Face > Treatments & Masks > Masks"
+        },
+        {
+          "item_id": "B000JIN0OG",
+          "title": "NuFACE Microcurrent Toner for Lifting and Toning the Face, Pink",
+          "category": "Beauty > Skin Care > Face > Toners & Astringents"
+        },
+        {
+          "item_id": "B000JQY2LI",
+          "title": "Zeno Pro Acne Clearing Device with 90 Count Cartridge, Pink",
+          "category": "Beauty > Skin Care > Face"
+        }
+      ]
+    }
+  ],
+  "interpretation": "Inspect content similarity empirically; codes are not supervised category labels"
+}

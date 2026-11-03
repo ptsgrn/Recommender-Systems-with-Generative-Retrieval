@@ -1,8 +1,32 @@
-# Developer A handoff — real artifacts ready, 2026-11-03
+# Project handoff — POC experiment complete, 2026-11-04
 
-Developer A's independent work is complete on real Beauty 2014 data. Developer
-B's branch is now merged and the combined pipeline is verified. A full
-recommendation experiment and final test metrics remain pending.
+The real-data TIGER POC is complete: frozen Semantic IDs, trained recommender,
+validation-selected checkpoint, held-out test comparison, and verified raw-token
+trace. The earlier verification runs below remain as provenance.
+
+## Completed experiment: poc01
+
+- Trained 5,000 steps with seed 42, CPU/two threads, batch 64, AdamW 0.001.
+  Active optimization/validation runtime: 1,877.3 seconds (31.3 minutes).
+- Selected step 4,500 by NDCG@10 on the fixed seeded 500-user validation subset
+  (0.01795087). The final checkpoint's own step 5,000 was not selected.
+- Final test covered all 2,000 users and 7,154 catalog items. Model Recall@10
+  **0.0235**, NDCG@10 **0.01110530**; popularity **0.0075**, **0.00279747**.
+- All users received ten unique valid items. Raw beam IDs and scores match all
+  exported validation/test recommendations. Test was evaluated once after freeze.
+- All 57 tests pass. Exact CPU resume is tested with dropout; an actual SIGINT
+  stopped this run at step 288 and resumed from its full optimizer/RNG/batch state.
+- Inference checkpoint: `artifacts/recommender/poc01/best/`; recovery state:
+  `artifacts/recommender/poc01/latest.pt`. Completed runs should remain frozen;
+  use prediction/inspection commands for the demo rather than resuming training.
+- Results, protocol, checkpoint hashes, training records and verified trace:
+  `reports/poc01/`. Full summary: `reports/poc01/experiment.json`.
+- Complete local backup: `artifacts/poc01_handoff.tar.gz` with SHA-256 alongside
+  it. It includes the selected/recovery checkpoints and frozen ID artifacts.
+
+This is one seed on a small real subset. Higher scores than popularity in this
+run do not establish statistical significance, the effect of semantic versus
+random IDs, or reproduction of the paper's benchmark results.
 
 ## Merged pipeline verification
 
@@ -64,16 +88,12 @@ Large data, model caches and artifacts are ignored by Git and remain local.
 Copy the archive to another machine; Git alone does not contain model weights.
 Small measured reports are tracked. See README for full formats and commands.
 
-## Continue with B
+## Demo and reproducibility
 
 ```bash
 uv sync --locked
 uv run pytest -q
-uv run python -m scripts.build_semantic_ids --config artifacts/run_config.yaml
-uv run python -m scripts.inspect_example --config artifacts/run_config.yaml
-uv run python -m scripts.evaluate --config artifacts/run_config.yaml --split val --predictions predictions_val.jsonl
-uv run python -m scripts.evaluate --config artifacts/run_config.yaml --split test --predictions predictions_test.jsonl
-uv run python -m scripts.inspect_example --config artifacts/run_config.yaml --predictions predictions_test.jsonl
+uv run python -m scripts.inspect_example --config configs/poc01.yaml --split test --predictions artifacts/recommender/poc01/predictions_test.jsonl --generation-log artifacts/recommender/poc01/generation_log_test.jsonl
 ```
 
 B must verify the mapping hash with each checkpoint. Offsets are `[2,258,514,770]`,
@@ -81,11 +101,12 @@ PAD=0, EOS=1, user offset=1026, vocabulary size=3026. Keep held-out targets out 
 training, use the full catalog, and allow repeated items. Select on validation,
 freeze the model, then evaluate test. Missing users receive empty predictions.
 
-The published A-stage trace ends with a pending recommendation. The isolated
-verification run includes generated-token logs and a full example trace under
-`artifacts/verification/real/reports/`. Final experiment predictions still need
-their own trace. Do not label popularity or short verification scores as final
-TIGER results.
+The historical A-stage trace and isolated 20-step verification reports are kept
+unchanged. Use `reports/poc01/example_trace.json` for the actual experiment: it
+includes an observed history item's content encoding and verifies raw generated
+tokens against the returned item/title. Ground-truth metadata is marked as
+inspection-only and was not given to generation. Do not mix fixture or 20-step
+verification scores into the poc01 result table.
 
 ## Re-running A
 

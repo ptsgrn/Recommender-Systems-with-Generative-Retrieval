@@ -1,0 +1,211 @@
+{
+  "status": "completed",
+  "experiment": "poc01",
+  "completed_at_utc": "2026-11-03T17:53:18.231051+00:00",
+  "source_revision": "1e694d343d37ea6660a52c3ab45ad2a3fb8a19ba",
+  "config": "configs/poc01.yaml",
+  "config_sha256": "7cd40a4f99bb75f8f252018eeb6e975e2bd6fd9882e9fb723dd7ba86b77c3377",
+  "dataset": {
+    "users": 2000,
+    "catalog_items": 7154,
+    "training_examples": 11264,
+    "candidate_policy": "full catalog; repeats allowed"
+  },
+  "training": {
+    "status": "completed",
+    "steps": 5000,
+    "runtime_s": 1877.2594344850004,
+    "best_step": 4500,
+    "best_ndcg@10": 0.01795086638316436,
+    "selection": "validation ndcg@10, fixed seeded subset of 500 users",
+    "runtime": {
+      "python": "3.12.14",
+      "platform": "Linux-7.2.13-200.fc44.x86_64-x86_64-with-glibc2.43",
+      "cpu_count": 8,
+      "cuda_available": false,
+      "gpu": null,
+      "packages": {
+        "numpy": "2.5.4",
+        "torch": "2.15.0+cpu",
+        "sentence-transformers": "5.7.0",
+        "scikit-learn": "1.9.1",
+        "PyYAML": "6.0.3",
+        "huggingface-hub": "1.33.0"
+      }
+    }
+  },
+  "selection": {
+    "frozen_at_utc": "2026-11-03T17:50:39.412406+00:00",
+    "selected_step": 4500,
+    "selection": "validation ndcg@10, fixed seeded subset of 500 users",
+    "selection_metrics": {
+      "step": 4500,
+      "train_loss": 2.053266763687134,
+      "check_loss": 2.604995635986328,
+      "elapsed_s": 1690.2540678240002,
+      "recall@10": 0.032,
+      "ndcg@10": 0.01795086638316436,
+      "mean_returned": 10.0,
+      "invalid_beams": 0,
+      "num_users": 500
+    },
+    "mapping_hash": "688ea781e09ddfdb8ea1875a08858dc131f4c305f33b0e35753ec1693a8ab260",
+    "catalog_hash": "51ffb69981900cc7a8044cb5c29c889104464016ad22c46e7c6ba76104e7b977",
+    "checkpoint_directory": "artifacts/recommender/poc01/best",
+    "files_sha256": {
+      "config.json": "82c3d7a653b29f2b739c638fae5a970ea35bb373ebac5c59adcd3784f859e5fb",
+      "generation_config.json": "3e86730fbbf95c76021b894c3af32bf3500029fe2379240ca8894b1b834c6280",
+      "model.safetensors": "43051b12409c52dc48060120401d0b9b60ed261f8e6f11a7584931056a4a49d2",
+      "run_meta.json": "c91c7309f2b95d5d2e587594b0934997b3d8037abc1a6a1c90003cb6bc49841b"
+    },
+    "training_summary": {
+      "status": "completed",
+      "steps": 5000,
+      "runtime_s": 1877.2594344850004,
+      "best_step": 4500,
+      "best_ndcg@10": 0.01795086638316436,
+      "selection": "validation ndcg@10, fixed seeded subset of 500 users",
+      "runtime": {
+        "python": "3.12.14",
+        "platform": "Linux-7.2.13-200.fc44.x86_64-x86_64-with-glibc2.43",
+        "cpu_count": 8,
+        "cuda_available": false,
+        "gpu": null,
+        "packages": {
+          "numpy": "2.5.4",
+          "torch": "2.15.0+cpu",
+          "sentence-transformers": "5.7.0",
+          "scikit-learn": "1.9.1",
+          "PyYAML": "6.0.3",
+          "huggingface-hub": "1.33.0"
+        }
+      }
+    },
+    "test_evaluated_before_freeze": false
+  },
+  "generation": {
+    "val": {
+      "split": "val",
+      "users": 2000,
+      "checkpoint_step": 4500,
+      "mapping_hash": "688ea781e09ddfdb8ea1875a08858dc131f4c305f33b0e35753ec1693a8ab260",
+      "decoding": "constrained-trie",
+      "num_beams": 20,
+      "k": 10,
+      "generation_seconds": 27.2,
+      "mean_returned": 10.0,
+      "fraction_full_k": 1.0,
+      "invalid_beams": 0
+    },
+    "test": {
+      "split": "test",
+      "users": 2000,
+      "checkpoint_step": 4500,
+      "mapping_hash": "688ea781e09ddfdb8ea1875a08858dc131f4c305f33b0e35753ec1693a8ab260",
+      "decoding": "constrained-trie",
+      "num_beams": 20,
+      "k": 10,
+      "generation_seconds": 22.4,
+      "mean_returned": 10.0,
+      "fraction_full_k": 1.0,
+      "invalid_beams": 0
+    }
+  },
+  "results": {
+    "val": {
+      "split": "val",
+      "catalog_size": 7154,
+      "catalog_hash": "51ffb69981900cc7a8044cb5c29c889104464016ad22c46e7c6ba76104e7b977",
+      "split_sha256": "998000da4f873e1d3433f348da1d3a5292bb06d60b23825aa5513fc3d30e92fb",
+      "seed": 42,
+      "candidate_policy": "full catalog, repeats allowed, no sampled negatives",
+      "popularity": {
+        "Recall@5": 0.0055,
+        "NDCG@5": 0.0030577477465039723,
+        "Recall@10": 0.012,
+        "NDCG@10": 0.0050889479038033,
+        "coverage@5": 1.0,
+        "coverage@10": 1.0,
+        "evaluated_users": 2000,
+        "mean_returned_items": 10.0
+      },
+      "model": {
+        "status": "measured",
+        "Recall@5": 0.0185,
+        "NDCG@5": 0.010631213227722725,
+        "Recall@10": 0.033,
+        "NDCG@10": 0.015296618424311905,
+        "coverage@5": 1.0,
+        "coverage@10": 1.0,
+        "evaluated_users": 2000,
+        "mean_returned_items": 10.0,
+        "predictions_sha256": "f44dfae6a8ac1648d218ecb2176bac4ae9a316c1ca106c687ea0c094b0588255"
+      },
+      "evaluation_seconds": 0.07820455199907883
+    },
+    "test": {
+      "split": "test",
+      "catalog_size": 7154,
+      "catalog_hash": "51ffb69981900cc7a8044cb5c29c889104464016ad22c46e7c6ba76104e7b977",
+      "split_sha256": "998000da4f873e1d3433f348da1d3a5292bb06d60b23825aa5513fc3d30e92fb",
+      "seed": 42,
+      "candidate_policy": "full catalog, repeats allowed, no sampled negatives",
+      "popularity": {
+        "Recall@5": 0.0025,
+        "NDCG@5": 0.0012461414348591217,
+        "Recall@10": 0.0075,
+        "NDCG@10": 0.0027974684026734905,
+        "coverage@5": 1.0,
+        "coverage@10": 1.0,
+        "evaluated_users": 2000,
+        "mean_returned_items": 10.0
+      },
+      "model": {
+        "status": "measured",
+        "Recall@5": 0.0125,
+        "NDCG@5": 0.007533771044993327,
+        "Recall@10": 0.0235,
+        "NDCG@10": 0.011105297554465626,
+        "coverage@5": 1.0,
+        "coverage@10": 1.0,
+        "evaluated_users": 2000,
+        "mean_returned_items": 10.0,
+        "predictions_sha256": "1f7bd457f9b7b4cf979c995856ef6b86e1e93a8afdb3274ecf51bd05d19a133d"
+      },
+      "evaluation_seconds": 0.07160218100034399
+    }
+  },
+  "prediction_integrity": {
+    "val": {
+      "predictions_sha256": "f44dfae6a8ac1648d218ecb2176bac4ae9a316c1ca106c687ea0c094b0588255",
+      "generation_log_sha256": "fca5f7a35bc14bc808dea9de1176f6b58dd2659cb0aafd458811630beb340ebc"
+    },
+    "test": {
+      "predictions_sha256": "1f7bd457f9b7b4cf979c995856ef6b86e1e93a8afdb3274ecf51bd05d19a133d",
+      "generation_log_sha256": "40a913eebc13bda965a0d7e4eb3272c4ae2ed4eae19c9151d714d308a400d2e3"
+    }
+  },
+  "verification": {
+    "tests_passed": 57,
+    "exact_cpu_resume_fixture_cases": 3,
+    "real_run_resumed_from_step": 288,
+    "all_exported_ids_match_raw_beams": true,
+    "frozen_A_artifacts_unchanged": true,
+    "selected_checkpoint_unchanged_after_evaluation": true,
+    "test_evaluation_runs": 1,
+    "full_trace_raw_tokens_verified": true
+  },
+  "mapping_hash": "688ea781e09ddfdb8ea1875a08858dc131f4c305f33b0e35753ec1693a8ab260",
+  "outputs": {
+    "checkpoint": "artifacts/recommender/poc01/best",
+    "recovery": "artifacts/recommender/poc01/latest.pt",
+    "trace": "reports/poc01/example_trace.json",
+    "archive": "artifacts/poc01_handoff.tar.gz"
+  },
+  "limitations": [
+    "One seed and one small Beauty 2014 subset; no statistical significance claim.",
+    "No random-ID ablation or paper benchmark reproduction.",
+    "Catalog metadata includes held-out items under the declared transductive assumption.",
+    "Quantizer warm-up and constrained decoding are documented project adaptations."
+  ]
+}

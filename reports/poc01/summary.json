@@ -1,0 +1,23 @@
+{
+  "status": "completed",
+  "steps": 5000,
+  "runtime_s": 1877.2594344850004,
+  "best_step": 4500,
+  "best_ndcg@10": 0.01795086638316436,
+  "selection": "validation ndcg@10, fixed seeded subset of 500 users",
+  "runtime": {
+    "python": "3.12.14",
+    "platform": "Linux-7.2.13-200.fc44.x86_64-x86_64-with-glibc2.43",
+    "cpu_count": 8,
+    "cuda_available": false,
+    "gpu": null,
+    "packages": {
+      "numpy": "2.5.4",
+      "torch": "2.15.0+cpu",
+      "sentence-transformers": "5.7.0",
+      "scikit-learn": "1.9.1",
+      "PyYAML": "6.0.3",
+      "huggingface-hub": "1.33.0"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "controlled_signal": "SIGINT",
+  "status": "interrupted",
+  "completed_step": 288,
+  "snapshot_sha256": "0da4ae51103dbc3e1d83dba8a944072bf3931881f87cad34850c82fff436423a"
+}

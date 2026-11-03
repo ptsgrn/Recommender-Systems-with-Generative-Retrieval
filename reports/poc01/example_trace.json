@@ -1,0 +1,128 @@
+{
+  "user_id": "A0459829SI5B5WIOZZHX",
+  "split": "test",
+  "metadata": {
+    "item_id": "B0030MNNFO",
+    "title": "Pureology Hydrate Shampoo 33.8 oz & Condition 33.8 oz Duo Set",
+    "brand": "Pureology",
+    "category": "Beauty > Hair Care > Shampoo & Conditioner Sets",
+    "price": 83.25,
+    "text": "Title: Pureology Hydrate Shampoo 33.8 oz & Condition 33.8 oz Duo Set. Brand: Pureology. Category: Beauty > Hair Care > Shampoo & Conditioner Sets. Price: 83.25."
+  },
+  "embedding_shape": [
+    1,
+    768
+  ],
+  "latent_shape": [
+    1,
+    32
+  ],
+  "learned_codes": [
+    111,
+    18,
+    161
+  ],
+  "collision_suffix": 0,
+  "target_offset_tokens": [
+    113,
+    276,
+    675,
+    770,
+    1
+  ],
+  "history_item_ids": [
+    "B002LL57Z4",
+    "B004BC9T9G",
+    "B004IQA3TU",
+    "B003O4BWV0",
+    "B002MSN3QQ"
+  ],
+  "history_tokens": [
+    1317,
+    229,
+    343,
+    516,
+    770,
+    187,
+    478,
+    608,
+    771,
+    74,
+    366,
+    754,
+    770,
+    146,
+    311,
+    740,
+    770,
+    238,
+    485,
+    625,
+    770,
+    1
+  ],
+  "recommendation": {
+    "status": "from saved predictions",
+    "item_id": "B0043OYFKU",
+    "generated_sid": [
+      213,
+      52,
+      47,
+      0
+    ],
+    "title": "Olay Pro-X Advanced Cleansing System 0.68 Fl Oz, 1-Count",
+    "note": "Raw generated tokens verified against the exported item and frozen maps"
+  },
+  "observed_item_encoding": {
+    "metadata": {
+      "item_id": "B002MSN3QQ",
+      "title": "Eltamd UV Clear SPF 46, 48-Gram 1.7 oz.",
+      "brand": "EltaMD",
+      "category": "Beauty > Skin Care > Sun > Skin Protection",
+      "price": 22.67,
+      "text": "Title: Eltamd UV Clear SPF 46, 48-Gram 1.7 oz.. Brand: EltaMD. Category: Beauty > Skin Care > Sun > Skin Protection. Price: 22.67."
+    },
+    "embedding_shape": [
+      1,
+      768
+    ],
+    "latent_shape": [
+      1,
+      32
+    ],
+    "learned_codes": [
+      236,
+      227,
+      111
+    ],
+    "collision_suffix": 0,
+    "offset_tokens": [
+      238,
+      485,
+      625,
+      770
+    ]
+  },
+  "metadata_role": "held-out target catalog metadata for inspection; not given to the recommender",
+  "raw_generation": {
+    "tokens_without_decoder_start": [
+      215,
+      310,
+      561,
+      770,
+      1
+    ],
+    "decoded_sid": [
+      213,
+      52,
+      47,
+      0
+    ],
+    "sum_token_log_probability": -4.744565963745117,
+    "mapping_hash": "688ea781e09ddfdb8ea1875a08858dc131f4c305f33b0e35753ec1693a8ab260",
+    "lookup_verified": true,
+    "source": "artifacts/recommender/poc01/generation_log_test.jsonl",
+    "predictions_sha256": "1f7bd457f9b7b4cf979c995856ef6b86e1e93a8afdb3274ecf51bd05d19a133d",
+    "generation_log_sha256": "40a913eebc13bda965a0d7e4eb3272c4ae2ed4eae19c9151d714d308a400d2e3"
+  }
+}

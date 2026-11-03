@@ -66,3 +66,36 @@ against training-only popularity and report coverage, users and actual runtimes.
 The raw generation log and prediction hashes bind the trace to the experiment.
 Large artifacts belong in the local checksummed archive, while source, config,
 small reports and documentation are tracked in Git.
+
+## Measured outcome
+
+The completed run used 5,000 steps and selected **step 4,500**. Active training and
+validation took **1,877.3 seconds**; full validation/test generation took **27.2 /
+22.4 seconds**. Both splits contain 2,000 users; every user received ten unique
+known items and both generation passes had zero invalid beams.
+
+| Test metric | Popularity | Recommender |
+|---|---:|---:|
+| Recall@5 | 0.002500 | 0.012500 |
+| Recall@10 | 0.007500 | 0.023500 |
+| NDCG@5 | 0.001246 | 0.007534 |
+| NDCG@10 | 0.002797 | 0.011105 |
+
+The selected checkpoint scored 0.01795087 NDCG@10 on the selection subset and
+0.01529662 on all validation users. It was frozen before the single final test
+assessment. No settings were changed using test results. Losses in the training
+log are last-batch training losses and token-weighted validation means.
+
+All 57 tests passed. A controlled real-run SIGINT stopped at step 288 and resumed
+from that step; the separate fixture comparisons prove exact continuation with
+dropout, optimizer moments and batch order. See `reports/poc01/experiment.json`
+for hashes, selection, metrics, runtime and integrity checks.
+
+The archive `artifacts/poc01_handoff.tar.gz` contains the paired inference and
+recovery checkpoints, frozen ID pipeline, data, logs, reports and source, with a
+SHA-256 sidecar. Preserve the completed run: `--resume` is for incomplete training;
+use the cached checkpoint and generation log for the demo.
+
+This single-seed subset result supports the POC demonstration. It does not
+establish statistical significance or isolate the benefit of Semantic IDs; no
+random-ID ablation, cold-start evaluation or paper benchmark reproduction was run.
