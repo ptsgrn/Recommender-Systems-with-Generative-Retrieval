@@ -1,0 +1,30 @@
+[project]
+name = "tiger-course-project"
+version = "0.1.0"
+description = "Explainable TIGER item data, residual quantization, and evaluation"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "numpy>=1.26,<3", "torch>=2.5,<3", "sentence-transformers>=3,<6",
+  "scikit-learn>=1.5,<2", "pyyaml>=6,<7", "huggingface-hub>=0.26,<2",
+]
+
+[dependency-groups]
+dev = ["pytest>=8,<10"]
+
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["src", "scripts"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }

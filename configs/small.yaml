@@ -1,0 +1,32 @@
+seed: 42
+device: auto
+threads: 2
+raw_dir: data/raw
+data_dir: data/processed
+artifact_dir: artifacts
+report_dir: reports
+data:
+  users: 2000
+  min_interactions: 5
+  reviews_url: https://snap.stanford.edu/data/amazon/productGraph/categoryFiles/reviews_Beauty_5.json.gz
+  metadata_url: https://snap.stanford.edu/data/amazon/productGraph/categoryFiles/meta_Beauty.json.gz
+embedding:
+  model: sentence-transformers/sentence-t5-base
+  revision: main
+  batch_size: 16
+  dimension: 768
+rqvae:
+  dimensions: [768, 512, 256, 128, 32]
+  levels: 3
+  codebook_size: 256
+  beta: 0.25
+  learning_rate: 0.001
+  batch_size: 256
+  cpu_batch_size: 16
+  epochs: 50
+  patience: 5
+benchmark:
+  items: 100
+  steps: 100
+  budget_seconds: 7200
+  user_candidates: [2000, 500, 200]

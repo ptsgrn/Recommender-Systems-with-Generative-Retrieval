@@ -1,0 +1,22 @@
+{
+  "split": "val",
+  "catalog_size": 7154,
+  "catalog_hash": "51ffb69981900cc7a8044cb5c29c889104464016ad22c46e7c6ba76104e7b977",
+  "split_sha256": "998000da4f873e1d3433f348da1d3a5292bb06d60b23825aa5513fc3d30e92fb",
+  "seed": 42,
+  "candidate_policy": "full catalog, repeats allowed, no sampled negatives",
+  "popularity": {
+    "Recall@5": 0.0055,
+    "NDCG@5": 0.0030577477465039723,
+    "Recall@10": 0.012,
+    "NDCG@10": 0.0050889479038033,
+    "coverage@5": 1.0,
+    "coverage@10": 1.0,
+    "evaluated_users": 2000,
+    "mean_returned_items": 10.0
+  },
+  "model": {
+    "status": "pending Developer B predictions"
+  },
+  "evaluation_seconds": 0.07414142900051957
+}

@@ -1,0 +1,62 @@
+{
+  "runtime": {
+    "python": "3.12.14",
+    "platform": "Linux-7.2.13-200.fc44.x86_64-x86_64-with-glibc2.43",
+    "cpu_count": 8,
+    "cuda_available": false,
+    "gpu": null,
+    "packages": {
+      "numpy": "2.5.4",
+      "torch": "2.15.0+cpu",
+      "sentence-transformers": "5.7.0",
+      "scikit-learn": "1.9.1",
+      "PyYAML": "6.0.3",
+      "huggingface-hub": "1.33.0"
+    }
+  },
+  "device": "cpu",
+  "embedding_sample_items": 100,
+  "embedding_seconds": 29.733935766000286,
+  "rqvae_seconds_per_step": 0.007271215829987341,
+  "initialization_seconds": 1.2273846419993788,
+  "projections": [
+    {
+      "requested_users": 2000,
+      "users": 2000,
+      "items": 7154,
+      "embedding_seconds": 2127.1657646996605,
+      "training_seconds": 325.75046918343287,
+      "initialization_seconds": 17.149823689186633,
+      "total_seconds": 2470.06605757228
+    },
+    {
+      "requested_users": 500,
+      "users": 500,
+      "items": 2931,
+      "embedding_seconds": 871.5016573014684,
+      "training_seconds": 133.79037127176707,
+      "initialization_seconds": 7.026297628320663,
+      "total_seconds": 1012.3183262015561
+    },
+    {
+      "requested_users": 200,
+      "users": 200,
+      "items": 1405,
+      "embedding_seconds": 417.761797512304,
+      "training_seconds": 63.98669930388861,
+      "initialization_seconds": 3.3681160586115766,
+      "total_seconds": 485.11661287480416
+    }
+  ],
+  "selected": {
+    "requested_users": 2000,
+    "users": 2000,
+    "items": 7154,
+    "embedding_seconds": 2127.1657646996605,
+    "training_seconds": 325.75046918343287,
+    "initialization_seconds": 17.149823689186633,
+    "total_seconds": 2470.06605757228
+  },
+  "caveat": "Linear estimate, download excluded; training includes 2x allowance for evaluation",
+  "model_revision": "fc5d4628481afbbaaacd7af6bb07cf9d3865f781"
+}
