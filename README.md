@@ -4,6 +4,7 @@ This repository implements item preprocessing, frozen Sentence-T5 embeddings,
 residual quantization, unique Semantic IDs, full-catalog metrics, and a
 training-only popularity baseline. The scope and task ownership are in
 [todo.md](todo.md). Developer B's sequence model and retrieval are separate work.
+See [HANDOFF.md](HANDOFF.md) for the paused run and exact resume commands.
 This is a small teaching implementation, not a reproduction of published scores.
 
 ## Setup and verification
