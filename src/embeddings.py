@@ -2,6 +2,7 @@
 from pathlib import Path
 import re
 import time
+import json
 import numpy as np
 
 from src.common import canonical_hash, file_hash, read_json, read_jsonl, write_json
@@ -62,6 +63,38 @@ def load_embeddings(directory, dimension=768):
     return ids, values, manifest
 
 
+def encode_checkpointed(model, items, config, identity, directory):
+    """Persist completed chunks atomically, including the exact cache identity."""
+    directory.mkdir(parents=True, exist_ok=True)
+    progress = directory / "embedding_progress.npz"
+    values = np.empty((0, identity["dimension"]), dtype=np.float32)
+    elapsed = 0.0
+    if progress.exists():
+        with np.load(progress, allow_pickle=False) as saved:
+            state = json.loads(str(saved["state"]))
+            if state["identity"] != identity:
+                raise ValueError("Stale partial embedding cache; use a fresh artifact directory")
+            values = saved["values"]
+            elapsed = state["encoding_seconds"]
+        validate_embeddings(identity["item_ids"][:len(values)], values, identity["dimension"])
+        if len(values) > len(items):
+            raise ValueError("Partial embedding cache exceeds catalog size")
+        print(f"Resuming at {len(values)}/{len(items)} cached items", flush=True)
+    for start in range(len(values), len(items), 128):
+        chunk = items[start:start + 128]
+        began = time.perf_counter()
+        encoded = encode(model, [item["text"] for item in chunk], config["embedding"]["batch_size"])
+        elapsed += time.perf_counter() - began
+        validate_embeddings([item["item_id"] for item in chunk], encoded, identity["dimension"])
+        values = np.concatenate((values, encoded))
+        state = {"identity": identity, "encoding_seconds": elapsed}
+        temporary = directory / "embedding_progress.tmp.npz"
+        np.savez(temporary, values=values, state=np.array(json.dumps(state)))
+        temporary.replace(progress)
+        print(f"Checkpointed {len(values)}/{len(items)} items ({elapsed:.1f}s)", flush=True)
+    return values, elapsed
+
+
 def embed_items(config, device):
     directory = Path(config["artifact_dir"])
     items = read_jsonl(Path(config["data_dir"]) / "items.jsonl")
@@ -79,9 +112,7 @@ def embed_items(config, device):
     model, actual_revision = load_encoder(config, device)
     if actual_revision != revision:
         raise ValueError("Model revision changed during loading; pin a commit SHA")
-    start = time.perf_counter()
-    values = encode(model, [item["text"] for item in items], config["embedding"]["batch_size"])
-    encoding_seconds = time.perf_counter() - start
+    values, encoding_seconds = encode_checkpointed(model, items, config, identity, directory)
     ids = identity["item_ids"]
     validate_embeddings(ids, values, config["embedding"]["dimension"])
     directory.mkdir(parents=True, exist_ok=True)
@@ -94,4 +125,5 @@ def embed_items(config, device):
         "encoding_seconds": encoding_seconds,
         "shape": list(values.shape), "normalization": "preserve model modules; no extra L2 normalization",
         "examples": [{"item_id": item["item_id"], "text": item["text"], "shape": [values.shape[1]]} for item in items[:5]]})
+    (directory / "embedding_progress.npz").unlink(missing_ok=True)
     print("Saved embeddings", values.shape)

@@ -20,7 +20,9 @@ rqvae:
   levels: 3
   codebook_size: 256
   beta: 0.25
-  learning_rate: 0.001
+  learning_rate: 0.0001
+  warmup_epochs: 10
+  warmup_learning_rate: 0.0001
   batch_size: 256
   cpu_batch_size: 16
   epochs: 50

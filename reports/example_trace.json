@@ -1,0 +1,67 @@
+{
+  "user_id": "A0459829SI5B5WIOZZHX",
+  "split": "test",
+  "metadata": {
+    "item_id": "B0030MNNFO",
+    "title": "Pureology Hydrate Shampoo 33.8 oz & Condition 33.8 oz Duo Set",
+    "brand": "Pureology",
+    "category": "Beauty > Hair Care > Shampoo & Conditioner Sets",
+    "price": 83.25,
+    "text": "Title: Pureology Hydrate Shampoo 33.8 oz & Condition 33.8 oz Duo Set. Brand: Pureology. Category: Beauty > Hair Care > Shampoo & Conditioner Sets. Price: 83.25."
+  },
+  "embedding_shape": [
+    1,
+    768
+  ],
+  "latent_shape": [
+    1,
+    32
+  ],
+  "learned_codes": [
+    111,
+    18,
+    161
+  ],
+  "collision_suffix": 0,
+  "target_offset_tokens": [
+    113,
+    276,
+    675,
+    770,
+    1
+  ],
+  "history_item_ids": [
+    "B002LL57Z4",
+    "B004BC9T9G",
+    "B004IQA3TU",
+    "B003O4BWV0",
+    "B002MSN3QQ"
+  ],
+  "history_tokens": [
+    1317,
+    229,
+    343,
+    516,
+    770,
+    187,
+    478,
+    608,
+    771,
+    74,
+    366,
+    754,
+    770,
+    146,
+    311,
+    740,
+    770,
+    238,
+    485,
+    625,
+    770,
+    1
+  ],
+  "recommendation": {
+    "status": "pending Developer B predictions"
+  }
+}

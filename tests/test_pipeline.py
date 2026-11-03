@@ -15,7 +15,7 @@ def test_checkpoint_maps_evaluation_and_trace(tmp_path):
     config = copy.deepcopy(load_config())
     for key, folder in (("data_dir", "processed"), ("artifact_dir", "artifacts"), ("report_dir", "reports")):
         config[key] = str(tmp_path / folder)
-    config["rqvae"].update(dimensions=[4, 8, 2], codebook_size=4, epochs=3, cpu_batch_size=4)
+    config["rqvae"].update(dimensions=[4, 8, 2], codebook_size=4, epochs=3, cpu_batch_size=4, warmup_epochs=1)
     config["embedding"]["dimension"] = 4
     config["device"] = "cpu"
     data, artifacts, reports = (tmp_path / name for name in ("processed", "artifacts", "reports"))
@@ -28,6 +28,9 @@ def test_checkpoint_maps_evaluation_and_trace(tmp_path):
     write_json(artifacts / "item_ids.json", ids)
     write_json(artifacts / "embedding_manifest.json", {"identity": {"item_ids": ids}, "array_sha256": file_hash(artifacts / "item_embeddings.npy")})
     train(config)
+    training_log = read_json(artifacts / "rqvae_training.json")
+    assert len(training_log["warmup"]) == 1
+    assert training_log["warmup"][0]["latent_std_mean"] > 0
     build(config)
     first = read_json(artifacts / "item_to_sid.json")
     build(config)

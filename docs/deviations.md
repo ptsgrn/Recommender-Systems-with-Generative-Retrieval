@@ -7,8 +7,15 @@
   is available. No held-out interaction label affects the quantizer or baseline.
 - Use frozen Hugging Face `sentence-transformers/sentence-t5-base`; pin the resolved
   revision in each run. This exact checkpoint is a project choice.
-- Use three 256×32 residual codebooks, Adam at 0.001, at most 50 epochs, and
+- Use three 256×32 residual codebooks, Adam at 0.0001, at most 50 epochs, and
   reconstruction-based early stopping rather than the paper's full training run.
+- The first real run at the TODO's starting rate 0.001 collapsed to one code per
+  level. Its final encoder ReLU had zero active outputs and all latent standard
+  deviations were zero. Preserve that checkpoint/log under
+  `artifacts/failed_collapse/`. To retain informative latents, add ten continuous
+  autoencoder warm-up epochs at 0.0001 before residual k-means initialization,
+  then train the unchanged RQ architecture at 0.0001. Warm-up loss and latent
+  standard deviation are logged separately. These are empirical project repairs.
 - Default to a CPU dependency environment and batch 16 on CPU. Select among
   2,000/500/200 users using measured timing and a two-hour compute budget. Record
   actual selection, package versions and hardware in the ignored run artifacts.

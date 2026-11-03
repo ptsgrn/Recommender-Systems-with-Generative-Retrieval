@@ -1,83 +1,80 @@
-# Developer A handoff — paused 2026-11-03
+# Developer A handoff — real artifacts ready, 2026-11-03
 
-Work stopped at the user's request. Resume from this file and `todo.md`.
+Developer A's independent work is complete on real Beauty 2014 data. Developer
+B's recommender, model metrics and raw generation trace remain pending.
 
-## Completed
+## Measured run
 
-- Implemented A1–A6 code, setup, pinned `uv.lock`, documentation and tests.
-- Downloaded and cleaned Amazon Beauty 2014 reviews and matching metadata.
-- Prepared 2,000 users, 7,154 items, 17,264 retained interactions and 11,264 rolling
-  training examples. Splits, chronological audits, source checksums and exclusion
-  counts are in ignored `data/processed/`.
-- Measured the local CPU benchmark and saved `reports/benchmark.json`. It selected
-  2,000 users under the two-hour projected compute budget. Actual full inference
-  was slower than the initial estimate, but remained within that budget.
-- Pinned Sentence-T5 revision `fc5d4628481afbbaaacd7af6bb07cf9d3865f781` in
-  ignored `artifacts/run_config.yaml`; downloaded its model cache locally.
-- Measured popularity on validation and test, using only original training events.
-  Test Recall@10 = 0.0075; NDCG@10 = 0.0027974684. See `reports/results_test.json`.
-- Last full test run: **22 passed**. Includes synthetic end-to-end quantizer
-  training, checkpoint reload, stable map export, evaluation and trace generation.
-  Synthetic tests do not establish real-data Semantic ID quality.
+- 2,000 users, 7,154 items, 17,264 retained events, 11,264 rolling training examples.
+- Finite float32 embeddings `[7154,768]`; encoding took 2,557.7 seconds (42.6 min).
+- Sentence-T5 revision: `fc5d4628481afbbaaacd7af6bb07cf9d3865f781`.
+- Ten continuous warm-up epochs plus seven quantized epochs took 85.5 seconds.
+- Best trained checkpoint: quantized epoch 2, step 896; reconstruction MSE
+  0.0001396825436. Selection compares quantized-training epochs only.
+- Active codes: 249/249/249 of 256; largest three-code collision group: two items.
+- Suffix usage: 7,101 zeros and 53 ones. All 7,154 four-code IDs are unique and
+  round-trip through the maps. Repeat export was byte-identical.
+- Test popularity Recall@10: 0.0075; NDCG@10: 0.0027974684. These are baseline scores.
+- All 23 tests pass, including interruption/resume, gradients, metrics, collision
+  handling, and a synthetic end-to-end run. Real cache reuse/export/diagnostics pass.
 
-## Exact stopping point
+Mapping hash: `688ea781e09ddfdb8ea1875a08858dc131f4c305f33b0e35753ec1693a8ab260`.
 
-Interrupted the full embedding process with Ctrl-C at **109/448 batches** (about
-1,744 items processed), after approximately **14 minutes 28 seconds** of encoding.
-Confirmed exit code 130; no embedding or training process was left running.
+## Training repair and limitations
 
-**Partial embeddings were only in memory and were not saved.** Restart the full
-embedding command. There is no `item_embeddings.npy`, real RQ-VAE checkpoint,
-frozen real Semantic ID mapping, or real ID diagnostics yet. Do not report A2–A4
-as completed experiments. The inference-time logging addition in the source was
-made after that process started; a fresh run will save `encoding_seconds`.
+The initial Adam 0.001/no-warm-up run killed the final encoder ReLU: latent
+standard deviations were zero and every item shared one tuple. Its checkpoint
+and logs remain in `artifacts/failed_collapse/`. The repaired run retains the
+architecture/codebook sizes, warms up the continuous autoencoder for ten epochs,
+then initializes residual codebooks with k-means. Both phases use rate 0.0001.
+This is a recorded project adaptation, not a setting attributed to the paper.
 
-The implementation was already committed as `c7604ff` when the handoff began;
-this handoff is a separate documentation commit. No Developer B model is present.
+Warm-up MSE decreased from 0.00020559 after epoch 1 to 0.00013807 after epoch 10.
+Quantized fine-tuning did **not** improve post-warm-up initialization MSE
+(0.00013895). The chosen checkpoint is the best trained epoch, not evidence that
+every phase improved reconstruction or that these IDs improve recommendation.
 
-## Resume on this machine
+## Artifact handoff
 
-Run from the repository root. Large raw files, caches and artifacts are ignored
-by Git and remain on this machine. A different machine needs those copied or
-downloaded again. Small measured reports are tracked.
+- `data/processed/`: catalog, splits, chronological audit, statistics and source hashes.
+- `artifacts/`: aligned item IDs/embeddings, embedding manifest, `rqvae.pt`, full
+  training log/config, forward/inverse SID maps and frozen vocabulary manifest.
+- `reports/`: measured baseline scores, ID diagnostics, example trace and run summary.
+- `artifacts/developer_a_handoff.tar.gz`: packaged backup with SHA-256 alongside it.
+  Includes processed data, frozen artifacts, reports, docs and failed-run evidence;
+  excludes raw downloads and the large pretrained encoder cache.
+
+Large data, model caches and artifacts are ignored by Git and remain local.
+Copy the archive to another machine; Git alone does not contain model weights.
+Small measured reports are tracked. See README for full formats and commands.
+
+## Continue with B
 
 ```bash
 uv sync --locked
 uv run pytest -q
-HF_HOME=.cache/huggingface HF_HUB_OFFLINE=1 uv run python -m scripts.embed_items --config artifacts/run_config.yaml
-uv run python -m scripts.train_rqvae --config artifacts/run_config.yaml
 uv run python -m scripts.build_semantic_ids --config artifacts/run_config.yaml
 uv run python -m scripts.inspect_example --config artifacts/run_config.yaml
+uv run python -m scripts.evaluate --config artifacts/run_config.yaml --split val --predictions predictions_val.jsonl
+uv run python -m scripts.evaluate --config artifacts/run_config.yaml --split test --predictions predictions_test.jsonl
+uv run python -m scripts.inspect_example --config artifacts/run_config.yaml --predictions predictions_test.jsonl
 ```
 
-The environment used Python 3.12.14 installed under `/tmp/tiger-python`, with
-`UV_CACHE_DIR=/tmp/tiger-uv`. If that temporary interpreter has been removed,
-`uv sync` must install/recreate Python and the environment. Network access was
-needed outside the restricted sandbox for initial downloads. The embedding
-command above reuses the existing cache offline.
+B must verify the mapping hash with each checkpoint. Offsets are `[2,258,514,770]`,
+PAD=0, EOS=1, user offset=1026, vocabulary size=3026. Keep held-out targets out of
+training, use the full catalog, and allow repeated items. Select on validation,
+freeze the model, then evaluate test. Missing users receive empty predictions.
 
-For a fresh checkout without local data/config/cache, follow the full sequence
-in `README.md`: prepare data, benchmark, prepare with the selected run config,
-then embed. Do not run data preparation and embedding concurrently.
+The trace currently ends with a pending recommendation. Saved predictions resolve
+a ranked item to its known SID/title; B must supply raw generated tokens and scores
+to establish autoregressive generation. Do not label popularity as TIGER results.
 
-## Remaining acceptance checks
+## Re-running A
 
-1. Finish real embeddings: verify `[7154,768]`, float32, finite values, aligned
-   item IDs, exact model revision and cache checksums.
-2. Train the real RQ-VAE; inspect loss reduction, finite gradients, active codes
-   and collision rates. Investigate collapse before exporting maps. Current
-   defaults are Adam 0.001, CPU batch 16, at most 50 epochs, patience five.
-3. Reload the best reconstruction checkpoint and export real IDs. Re-export and
-   compare mapping hashes. Collision suffix overflow must fail rather than wrap.
-4. Generate `reports/id_diagnostics.json` and `reports/example_trace.json`.
-   Record measured runtime and limitations. Back up the ignored real artifacts.
-5. Give B the splits, item catalog, checkpoint, forward/inverse maps and manifest
-   with its mapping hash. Keep B's production tokenizer/recommender out of A's scope.
-6. Once B supplies saved ranked predictions, run `scripts.evaluate` and
-   `scripts.inspect_example` with `--predictions`. Model metrics and actual
-   generated-token evidence remain pending until then. A lookup of a predicted
-   item's known SID is not evidence of autoregressive generation.
+Use a fresh artifact directory for a new experiment; frozen mappings prevent
+overwriting this run. Embedding progress now checkpoints every 128 items and
+resumes matching catalog/text/model identity automatically. The completed run
+needs no partial checkpoint. Its timing excludes the discarded first interrupted pass.
 
-Use validation for model selection, freeze the checkpoint, then evaluate test.
-Preserve full-catalog candidates and allow repeat recommendations. No score
-target, random-ID ablation, external GPU provisioning or B implementation is required.
+Python 3.12.14 was installed under `/tmp/tiger-python`. Rebuild with `uv sync` if
+that temporary interpreter is removed. Back up the ignored artifacts before the exam.

@@ -4,7 +4,7 @@ This repository implements item preprocessing, frozen Sentence-T5 embeddings,
 residual quantization, unique Semantic IDs, full-catalog metrics, and a
 training-only popularity baseline. The scope and task ownership are in
 [todo.md](todo.md). Developer B's sequence model and retrieval are separate work.
-See [HANDOFF.md](HANDOFF.md) for the paused run and exact resume commands.
+See [HANDOFF.md](HANDOFF.md) for the completed real-data run and B integration commands.
 This is a small teaching implementation, not a reproduction of published scores.
 
 ## Setup and verification
@@ -68,13 +68,24 @@ revision, dimensions, dtype, finiteness, and array checksum. Set the revision to
 the saved SHA to reuse a cache offline. Use fresh data and artifact directories
 when changing the subset or encoder.
 
+Embedding progress is checkpointed atomically every 128 items in
+`artifacts/embedding_progress.npz`. Rerun the same command after interruption to
+resume completed chunks. A changed catalog, text, or model revision rejects that
+partial cache. The checkpoint is removed after the final cache is saved.
+
 ## Quantization and frozen artifacts
 
 The encoder is 768→512→256→128→32 with a mirrored decoder and ReLU hidden layers.
-Three independent codebooks have 256 vectors each. Sequential k-means initializes
-codebooks from latents and their residuals. Adam uses learning rate 0.001 and
+Three independent codebooks have 256 vectors each. A ten-epoch continuous
+autoencoder warm-up at learning rate 0.0001 precedes sequential k-means
+initialization on the learned latents and their residuals. Quantized training
+uses Adam at learning rate 0.0001 and
 batch 256 (16 on CPU), at most 50 epochs, and patience five. Selection uses lowest
 full-catalog reconstruction loss; no held-out interaction labels enter this stage.
+The original 0.001/no-warm-up run collapsed the final encoder ReLU layer and
+assigned every item the same tuple. Its checkpoint/logs are retained under
+`artifacts/failed_collapse/`; warm-up and the lower rate are measured project
+adaptations, not settings attributed to the paper.
 
 Squared losses are means over batch and feature coordinates; auxiliary losses
 are summed across levels, with commitment weight 0.25. The straight-through path
