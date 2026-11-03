@@ -3,7 +3,8 @@
 This repository implements item preprocessing, frozen Sentence-T5 embeddings,
 residual quantization, unique Semantic IDs, full-catalog metrics, and a
 training-only popularity baseline. The scope and task ownership are in
-[todo.md](todo.md). Developer B's sequence model and retrieval are separate work.
+[todo.md](todo.md). Developer B's sequence model and retrieval are described in
+[Developer B: sequence model and retrieval](#developer-b-sequence-model-and-retrieval).
 See [HANDOFF.md](HANDOFF.md) for the paused run and exact resume commands.
 This is a small teaching implementation, not a reproduction of published scores.
 
@@ -145,6 +146,49 @@ With predictions, the trace resolves the first ranked item back to its SID/title
 it does not claim to prove generation. B's generation log must supply raw generated
 tokens and scores to complete that part of the oral-exam trace.
 
+## Developer B: sequence model and retrieval
+
+| File | Role |
+|---|---|
+| `src/tokenization.py` | `SIDVocab` (code tuple ↔ offset token), `HistoryEncoder.encode_history`, loads and validates A's maps |
+| `src/dataset.py` | Rolling training prefixes, val/test examples, padded batches (`labels` padding = -100) |
+| `src/recommender.py` | T5 from `T5Config` with the 3,026-token vocabulary; train step; checkpoints store the mapping hash |
+| `src/retrieval.py` | Beam search, catalog prefix trie, lookup, `Retriever.recommend(user_id, history, k)` |
+| `scripts/make_fixture.py` | 16-item hand-made fixture in A's exact artifact format (debugging only) |
+| `scripts/smoke_test.py` | J1: real-ID batch forward/backward and label → item round trip |
+| `scripts/train_recommender.py` | Training, validation NDCG@10 checkpoint selection, `--benchmark-steps`, `--overfit` |
+| `scripts/predict_recommender.py` | Predictions JSONL for `scripts.evaluate` plus a raw-token generation log |
+
+Fixture checks (no real data needed):
+
+```bash
+uv run python -m scripts.make_fixture
+uv run python -m scripts.smoke_test --data-dir tests/fixtures --sid-dir tests/fixtures
+uv run python -m scripts.train_recommender --data-dir tests/fixtures --sid-dir tests/fixtures --out runs/overfit --overfit --max-steps 300 --eval-every 100 --batch-size 32
+```
+
+Real run, after A's maps are frozen in `artifacts/`:
+
+```bash
+uv run python -m scripts.smoke_test --config artifacts/run_config.yaml
+uv run python -m scripts.train_recommender --config artifacts/run_config.yaml --benchmark-steps 100
+uv run python -m scripts.train_recommender --config artifacts/run_config.yaml --max-steps N
+uv run python -m scripts.predict_recommender --config artifacts/run_config.yaml --split val
+uv run python -m scripts.predict_recommender --config artifacts/run_config.yaml --split test
+uv run python -m scripts.evaluate --config artifacts/run_config.yaml --split test --predictions artifacts/recommender/predictions_test.jsonl
+```
+
+The selected checkpoint is `artifacts/recommender/best/`, chosen by validation
+NDCG@10 on a fixed seeded subset; `run_meta.json` records the step, metrics,
+mapping hash and decoding mode, and loading refuses a different mapping hash.
+`generation_log_{split}.jsonl` holds the raw generated tokens and beam scores
+for the oral-exam trace. `--unconstrained` writes a separate diagnostic run that
+counts invalid IDs instead of using the catalog trie.
+
+Intel Macs cannot install the locked `torch>=2.5`. B's code and tests were also
+verified there in a plain virtual environment with Python 3.9/3.12, torch 2.2.2
+and transformers 4.44.2/4.57.6 (`PYTHONPATH=. python -m pytest tests/test_tokenization_dataset.py tests/test_model_retrieval.py`).
+
 ## Paper correspondence and limitations
 
 | Paper area | Source |
@@ -152,7 +196,8 @@ tokens and scores to complete that part of the oral-exam trace.
 | §3.1, Figure 3: residual quantization | `src/rqvae.py` |
 | §3.1: unique Semantic IDs | `src/semantic_ids.py` |
 | Appendix C: chronological evaluation | `src/data.py`, `src/metrics.py` |
-| §3.2: sequence model and retrieval | Pending Developer B |
+| §3.2, Figure 2: sequence-to-sequence model | `src/tokenization.py`, `src/dataset.py`, `src/recommender.py` |
+| §3.2, §4.5: beam search and invalid IDs | `src/retrieval.py` |
 
 See [docs/deviations.md](docs/deviations.md) for adaptations. The reference is
 [Rajput et al., Recommender Systems with Generative Retrieval](https://arxiv.org/abs/2305.05065).
