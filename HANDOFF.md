@@ -10,30 +10,42 @@ The earlier implementation and recovery handoff is preserved in
 
 ---
 
+## Updated submission and presentation evidence
+
+Use `docs/oral_exam_slides.md` for the three-presenter, 10-minute introduction
+and backup questions. The completed second baseline is item cosine, fitted only
+on training-user co-occurrence, with no tuned hyperparameters. The current
+comparison is `reports/baselines/results_test.json`; the original `poc01` records
+remain frozen. Test Recall@10 / NDCG@10: popularity 0.0075 / 0.0027974684;
+item cosine 0.0175 / 0.0065503020; TIGER 0.0235 / 0.0111052976. These correspond
+to 15, 35, and 47 top-ten hits among 2,000 users. Current suite: 59 passing tests.
+The original experiment's 57-test count below is historical. Confirmed member names and contributions are in `docs/contributions.md`;
+use those names in the deck.
+
 ## Instructions to the presentation creator
 
 Create an English oral-exam presentation about **Recommender Systems with
 Generative Retrieval: a TIGER-inspired proof of concept**. The audience is a
 computer-science examiner who will ask about implementation, data, experimental
-findings, and limitations. Assume a **10-minute talk with 12 main slides**,
+findings, and limitations. Assume a **10-minute talk with 10 main slides**,
 followed by questions. Use placeholders for presenter names and course details;
 do not invent them. No clarification is needed to produce the first draft.
 
 Deliver:
 
-1. Twelve numbered slides with a clear title, at most four short bullets each,
+1. Ten numbered slides with a clear title, at most four short bullets each,
    and a suggested diagram or chart where useful.
 2. Speaker notes for every slide, explaining what each finding means, with
    timing allocations totaling 10 minutes. Put detail in notes or backup slides.
 3. Exact chart data for the test comparison from the table below.
-4. Four backup slides: equations and tokenization; full evaluation protocol;
-   quantizer diagnostics and repair; reproducibility and evidence.
+4. Five backup slides: quantization and gradients; attention and tensor shapes;
+   baseline worked example; ranking and metrics; checkpoint recovery.
 5. Ten likely examiner questions with concise, defensible answers.
 6. A short opening and closing script. End with the supported conclusion:
    “The pipeline works end to end and outperformed popularity in this run,
    but absolute accuracy is low and the contribution of Semantic IDs is unproven.”
 
-Use a readable academic design, consistent colors for the two methods, and large
+Use a readable academic design, consistent colors for the three methods, and large
 labels. Favor a pipeline diagram, chronological split example, compact result
 table, two separate metric charts, and one honest prediction trace. If file
 creation is available, also produce an editable 16:9 PPTX with speaker notes;
@@ -49,20 +61,18 @@ content-derived IDs do not explain a user's preference.
 
 ## Suggested slide sequence
 
-| Slide | Purpose | Preferred visual | Time |
+| Slide | Presenter | Topic | Time |
 |---|---|---|---:|
-| 1 | Research question and project scope | Next-item task and title | 0:25 |
-| 2 | End-to-end approach and implemented components | Two-stage pipeline | 0:50 |
-| 3 | Data source, filtering, and actual subset | Counts and history summary | 0:45 |
-| 4 | Chronological split and evaluation safeguards | Train/validation/test example | 0:55 |
-| 5 | Content to unique Semantic IDs | Metadata → embedding → codes → suffix | 0:55 |
-| 6 | Training and generating recommendations | History → T5 → constrained beams | 0:55 |
-| 7 | Setup, popularity baseline, and metrics | Protocol and metric definitions | 0:50 |
-| 8 | Held-out test results | Separate Recall@10 and NDCG@10 charts | 1:00 |
-| 9 | Quantizer findings and failed-run repair | Collapse → repair → usable IDs | 0:50 |
-| 10 | Verified prediction, including its mismatch | Actual encoding and generation trace | 0:55 |
-| 11 | Limitations and unanswered questions | Limitation → next experiment | 1:00 |
-| 12 | Supported conclusion and prioritized next work | Three takeaways | 0:40 |
+| 1 | พัสกร ยืนยง | Generative retrieval for next-item recommendation | 0:30 |
+| 2 | พัสกร ยืนยง | Data and chronological holdout | 1:00 |
+| 3 | พัสกร ยืนยง | From product content to unique Semantic IDs | 1:30 |
+| 4 | ภาณุพงศ์ จันทร์ลาม | Constructing model inputs and labels | 1:00 |
+| 5 | ภาณุพงศ์ จันทร์ลาม | Training and selecting the recommender | 1:00 |
+| 6 | ภาณุพงศ์ จันทร์ลาม | Disclosed changes from the paper | 1:00 |
+| 7 | ธิปก ปัญญาวุธ | Generating and ranking catalog items | 1:00 |
+| 8 | ธิปก ปัญญาวุธ | Two baselines and held-out results | 1:00 |
+| 9 | ธิปก ปัญญาวุธ | What the results support and leave open | 1:00 |
+| 10 | All three | Actual contributions and shared preparation | 1:00 |
 
 ## Project purpose and implementation [E1, E2, E5]
 
@@ -249,14 +259,14 @@ There is one relevant held-out item per user:
 
 These values are proportions/scores on the **same 2,000 test users**.
 
-| Test metric | Training-only popularity | Generative recommender |
-|---|---:|---:|
-| Recall@5 | 0.002500 | 0.012500 |
-| Recall@10 | 0.007500 | 0.023500 |
-| NDCG@5 | 0.0012461414 | 0.0075337710 |
-| NDCG@10 | 0.0027974684 | 0.0111052976 |
-| Users receiving ten unique valid items | 2,000 / 2,000 | 2,000 / 2,000 |
-| Mean returned items | 10.0 | 10.0 |
+| Test metric | Training-only popularity | Item cosine | Generative recommender |
+|---|---:|---:|---:|
+| Recall@5 | 0.002500 | 0.005000 | 0.012500 |
+| Recall@10 | 0.007500 | 0.017500 | 0.023500 |
+| NDCG@5 | 0.0012461414 | 0.0026199736 | 0.0075337710 |
+| NDCG@10 | 0.0027974684 | 0.0065503020 | 0.0111052976 |
+| Users receiving ten unique valid items | 2,000 / 2,000 | 2,000 / 2,000 | 2,000 / 2,000 |
+| Mean returned items | 10.0 | 10.0 | 10.0 |
 
 Interpretation, with arithmetic derived from measured scores:
 
@@ -271,8 +281,8 @@ Interpretation, with arithmetic derived from measured scores:
   constraints, not accuracy, diversity, or success for unseen items.
 
 For slide 8, use two small bar charts with zero-based axes. Recall@10 data:
-`Popularity = 0.75%`, `Recommender = 2.35%`. NDCG@10 data:
-`Popularity = 0.0027974684`, `Recommender = 0.0111052976`. Include the absolute
+`Popularity = 0.75%`, `Item cosine = 1.75%`, `Recommender = 2.35%`. NDCG@10 data:
+`Popularity = 0.0027974684`, `Item cosine = 0.0065503020`, `Recommender = 0.0111052976`. Include the absolute
 Recall difference and hit counts; do not show relative gains alone.
 
 ### Validation: distinguish selection and full-split results
@@ -303,7 +313,7 @@ exported IDs match raw beam tokens, and the selected checkpoint and maps were
 unchanged after evaluation. Engineering checks are separate from evidence about
 recommendation quality.
 
-## Actual trace for slide 10 [E8]
+## Actual trace for retrieval and backup questions [E8]
 
 This verifies representation, generation, and lookup. It is **not a successful
 next-item prediction**. Do not replace the mismatch with a fabricated hit.
@@ -342,7 +352,7 @@ the earlier ID-learning stage.
 | Limitation / observation | What can be concluded | Next work (not run) |
 |---|---|---|
 | One seed, one small subset, one product domain | Describes this run; uncertainty and generalization are unknown | Multiple seeds/subsets and paired uncertainty estimates |
-| Popularity is the only measured recommendation baseline | Exceeded this baseline under this protocol | Add item-based and sequential baselines under identical evaluation |
+| Two simple baselines measured: popularity and item cosine | Exceeded both in this run | Add a stronger sequential baseline under identical evaluation |
 | No random-ID ablation | Cannot attribute gains to semantic structure | Retrain using seeded random unique IDs with matched data/model/budget |
 | Recall@10 is only 2.35% | The POC works mechanically but misses most targets | Use validation to compare training budgets and diagnose errors |
 | 36.4% of test targets lack training events | Many targets have no training-event support; subgroup accuracy is unreported | Measure training-seen/unseen target groups; design a separate cold-start protocol |

@@ -2,14 +2,16 @@
 
 This repository implements item preprocessing, frozen Sentence-T5 embeddings,
 residual quantization, unique Semantic IDs, full-catalog metrics, and a
-training-only popularity baseline, plus a T5 sequence model and generative retrieval.
-The scope and task ownership are in
-[todo.md](todo.md). Developer B's sequence model and retrieval are described in
+training-only popularity and item-cosine baselines, plus a T5 sequence model and generative retrieval.
+The original implementation plan is in
+[todo.md](todo.md); current course readiness is tracked below. Developer B's sequence model and retrieval are described in
 [Developer B: sequence model and retrieval](#developer-b-sequence-model-and-retrieval).
 See [HANDOFF.md](HANDOFF.md) for a self-contained ChatGPT presentation prompt with
 the measured data, findings, and limitations, and the
 [engineering handoff](docs/engineering_handoff.md) for run and integration details.
 This is a small teaching implementation, not a reproduction of published scores.
+Start with the [repository walkthrough](docs/repository_walkthrough.md) for a
+guided reading order, hands-on exercises, and oral-exam checkpoints.
 The bounded training, recovery, evaluation and trace protocol is in
 [docs/experiment.md](docs/experiment.md).
 
@@ -20,6 +22,112 @@ training-only popularity scores **0.0075** and **0.002797**. See the
 [experiment record](reports/poc01/experiment.json), and
 [verified prediction trace](reports/poc01/example_trace.json).
 These are one-run results on a small subset, not paper benchmark reproduction.
+
+## Course requirements and submission status
+
+The implementation and two-baseline comparison are complete. The submission
+package and presentation are prepared as described below; individual rehearsal, and the MyCourseVille upload still require the group.
+Status updated **2026-11-04**. See the [three-method comparison](reports/baselines/results_test.md),
+[baseline protocol](docs/baseline.md), and [oral-exam slides](docs/oral_exam_slides.md) and [editable PPTX](docs/oral_exam.pptx) / [PDF](docs/oral_exam.pdf).
+
+| Requirement | Status | Evidence or remaining work |
+|---|---|---|
+| Implement the assigned paper's method | Core method implemented | Content embeddings, residual quantization, unique Semantic IDs, autoregressive T5, and item lookup; see the [paper correspondence](#paper-correspondence-and-limitations) |
+| Report one dataset | Implemented with a disclosed reduction | Amazon Beauty 2014 subset: 2,000 users, 7,154 items, and 11,264 rolling training examples |
+| Compare with two relevant baselines | Complete | Popularity and item cosine, fitted on training events and evaluated under the same protocol; [comparison](reports/baselines/results_test.md) |
+| Report at least one evaluation metric | Complete | Recall and NDCG at 5 and 10 are measured on all 2,000 test users |
+| Disclose configuration changes in the presentation | Prepared | Dedicated modifications slide in [oral-exam slides](docs/oral_exam_slides.md), with source settings below |
+| Every member understands the full code | Requires individual rehearsal | Each member must explain data preparation, modeling, prediction ranking, and evaluation, regardless of presentation ownership |
+| Explain contributions among three members | Complete | Names, student IDs, and actual work recorded in [contributions](docs/contributions.md) and the presentation |
+| Submit all source code as a ZIP to MyCourseVille before class | ZIP prepared; upload left to user | `submission/tiger_submission.zip` includes source, processed data, frozen artifacts, and reports; see [submission instructions](docs/submission.md) |
+| Confirm the assigned group and paper | Not verified | Check against the course assignment table, which is not stored here |
+
+Verification on the current checkout: `.venv/bin/python -m pytest -q` passed
+**59 tests** after adding the second baseline. All four selected-checkpoint files matched the SHA-256 values in
+[reports/poc01/experiment.json](reports/poc01/experiment.json). This supports
+implementation integrity, not a guarantee of oral-exam performance.
+
+### Paper settings and project modifications
+
+The course permits computational reductions when clearly stated in the
+presentation. The project preserves the two-stage method while using the
+following settings. Paper values come from
+[Section 4 of the original paper](https://arxiv.org/html/2305.05065#S4);
+project values come from [configs/poc01.yaml](configs/poc01.yaml) and the saved
+experiment records.
+
+| Setting | Original paper | Completed project run |
+|---|---|---|
+| Encoder / decoder layers | 4 / 4 | 2 / 2 |
+| Attention heads × head dimension | 6 × 64 | 4 × 32 |
+| Feed-forward width | 1,024 | 512 |
+| Beauty recommender training | 200,000 steps | 5,000 steps; step 4,500 selected on validation |
+| Recommender batch size | 256 | 64 |
+| Recommender learning rate | 0.01 for the first 10,000 steps, then inverse-square-root decay | Constant 0.001 with AdamW |
+| Quantizer optimizer / learning rate | Adagrad / 0.4 | Adam / 0.0001 |
+| Quantizer batch size | 1,024 | 16 on CPU |
+| Quantizer training | 20,000 epochs | 10 continuous warm-up + 7 quantized epochs completed; quantized epoch 2 selected |
+| Invalid generated IDs | Beam generation followed by filtering | Catalog-prefix-constrained beam search |
+
+Also disclose the 2,000-user sample, the exact frozen Sentence-T5 checkpoint,
+residual k-means initialization after warm-up, and checkpoint selection on a
+fixed 500-user validation subset. The warm-up/lower-rate repair addressed an
+initial quantizer collapse. Quantized fine-tuning did not improve reconstruction
+over the post-warm-up initialization, so usable IDs should not be presented as
+proof that every training phase improved quality.
+
+The paper's smallest original dataset by users and items is Toys and Games;
+this project instead uses a reduced Beauty subset. Explain this as a
+computational adaptation under the course's smaller-dataset allowance. The
+[paper's dataset statistics and splitting protocol](https://arxiv.org/html/2305.05065#A3)
+provide the original comparison.
+
+### Completion checklist
+
+- [x] Implement and measure a second relevant baseline with the same split,
+  full catalog, repeat-item policy, and metrics. Item cosine uses binary
+  training-user co-occurrence and has no tuned hyperparameters.
+- [x] Store the new comparison in `reports/baselines/`, reusing frozen TIGER
+  measurements without retraining or rerunning model test generation.
+- [x] Prepare presentation slides covering paper-versus-project modifications,
+  measured results, limitations, and code questions.
+- [x] Record all three members' names and reported actual contributions in
+  [docs/contributions.md](docs/contributions.md). Individual cross-module rehearsal remains open.
+- [x] Prepare and inspect `submission/tiger_submission.zip`, with source,
+  tests, configs, documentation, reports, lockfile, processed data, frozen maps,
+  selected/recovery weights, and generation logs. Its internal manifest records
+  each file's SHA-256; a ZIP checksum is provided alongside it.
+- [ ] Group action: submit the ZIP to MyCourseVille before class on **November 5, 2026**.
+  Automated upload is skipped at the user’s request.
+- [ ] Rehearse individual questions across the entire pipeline using the
+  [repository walkthrough](docs/repository_walkthrough.md).
+
+The current model's Recall@10 is 2.35% versus popularity's 0.75%: **47 versus 15
+hits among 2,000 users**. Item cosine achieves 1.75%, or **35 hits**. It still misses 1,953 targets. The supplied course
+requirements do not require beating baselines, reproducing published scores, or
+running a random-ID ablation. They do require the baseline comparison, honest
+analysis, and full understanding of the implementation.
+
+### Ten minute introduction and three presenter plan
+
+The oral examination allocates about **60 minutes per group**: at most
+**10 minutes** to introduce brief results and task allocation, followed by about
+**50 minutes of questions**. The following is a proposed presentation split,
+not a record of who implemented each component.
+
+| Presenter | Topics | Time |
+|---|---|---:|
+| นายพัสกร ยืนยง | Problem, chronological data split, embeddings, and Semantic IDs | 3 minutes |
+| นายภาณุพงศ์ จันทร์ลาม | Tokenization, Transformer operation, teacher forcing, and checkpoint selection | 3 minutes |
+| นายธิปก ปัญญาวุธ | Beam search, evaluation, baseline comparison, findings, and limitations | 3 minutes |
+| All three | Actual contributions and how members reviewed each other's code | 1 minute |
+
+Keep detailed code excerpts, tensor shapes, equations, gradient routing, and
+recovery behavior in backup slides for questions. Every member should be ready
+to explain the full pipeline, including why the decoder cannot see future
+target tokens, how beam scores become rankings, why mappings are frozen, and
+how validation selection differs from final test evaluation. Use saved
+checkpoints and outputs for demonstrations rather than retraining live.
 
 ## Setup and verification
 

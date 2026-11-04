@@ -1,0 +1,41 @@
+{
+  "catalog_hash": "51ffb69981900cc7a8044cb5c29c889104464016ad22c46e7c6ba76104e7b977",
+  "split_sha256": "998000da4f873e1d3433f348da1d3a5292bb06d60b23825aa5513fc3d30e92fb",
+  "split": "test",
+  "catalog_size": 7154,
+  "popularity": {
+    "Recall@5": 0.0025,
+    "NDCG@5": 0.0012461414348591217,
+    "Recall@10": 0.0075,
+    "NDCG@10": 0.0027974684026734905,
+    "coverage@5": 1.0,
+    "coverage@10": 1.0,
+    "evaluated_users": 2000,
+    "mean_returned_items": 10.0
+  },
+  "item_cosine": {
+    "Recall@5": 0.005,
+    "NDCG@5": 0.0026199736470772375,
+    "Recall@10": 0.0175,
+    "NDCG@10": 0.006550301973483904,
+    "coverage@5": 1.0,
+    "coverage@10": 1.0,
+    "evaluated_users": 2000,
+    "mean_returned_items": 10.0
+  },
+  "model": {
+    "status": "measured",
+    "Recall@5": 0.0125,
+    "NDCG@5": 0.007533771044993327,
+    "Recall@10": 0.0235,
+    "NDCG@10": 0.011105297554465626,
+    "coverage@5": 1.0,
+    "coverage@10": 1.0,
+    "evaluated_users": 2000,
+    "mean_returned_items": 10.0,
+    "predictions_sha256": "1f7bd457f9b7b4cf979c995856ef6b86e1e93a8afdb3274ecf51bd05d19a133d"
+  },
+  "model_source": "reports/poc01/results_test.json",
+  "model_source_sha256": "e3a2d220e353e84b391b9faae6da8d2ac4c672549c9cf133c33b46b7b9cb1a0f",
+  "baseline_predictions_sha256": "096c37dd547735610523aa0fb723f7ce62349bb25c28d6de09ac463a0927c5bf"
+}

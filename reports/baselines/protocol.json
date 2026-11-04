@@ -1,0 +1,14 @@
+{
+  "catalog_hash": "51ffb69981900cc7a8044cb5c29c889104464016ad22c46e7c6ba76104e7b977",
+  "split_sha256": "998000da4f873e1d3433f348da1d3a5292bb06d60b23825aa5513fc3d30e92fb",
+  "method": "item_cosine",
+  "fit": "binary user-item membership in train_items only",
+  "similarity": "shared training users / sqrt(user_count_i * user_count_j); diagonal zero",
+  "score": "sum over distinct items in latest 20 observed history events",
+  "neighbors": "all; no tuned hyperparameters",
+  "ties": "descending original training-event popularity, ascending item ID",
+  "candidate_policy": "full catalog; previously observed items allowed; no sampled negatives",
+  "selection": "fixed before baseline evaluation; no validation/test tuning",
+  "model_results": "copied from frozen poc01 reports; no model generation or retraining",
+  "source_sha256": "14c4786c65c3364106692fac17658839eef18d8df72501d944dbf681f77272ab"
+}
