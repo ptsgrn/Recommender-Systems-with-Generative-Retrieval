@@ -39,8 +39,8 @@ Status updated **2026-11-04**. See the [three-method comparison](reports/baselin
 | Disclose configuration changes in the presentation | Prepared | Dedicated modifications slide in [oral-exam slides](docs/oral_exam_slides.md), with source settings below |
 | Every member understands the full code | Requires individual rehearsal | Each member must explain data preparation, modeling, prediction ranking, and evaluation, regardless of presentation ownership |
 | Explain contributions among three members | Complete | Names, student IDs, and actual work recorded in [contributions](docs/contributions.md) and the presentation |
-| Submit all source code as a ZIP to MyCourseVille before class | ZIP prepared; upload left to user | `submission/tiger_submission.zip` includes source, processed data, frozen artifacts, and reports; see [submission instructions](docs/submission.md) |
-| Confirm the assigned group and paper | Not verified | Check against the course assignment table, which is not stored here |
+| Submit all source code as a ZIP to MyCourseVille before class | ZIP prepared; upload left to user | `submission/5_term project.zip` includes source, a 100-event dataset sample and source links, presentation files, and reports; see [submission instructions](docs/submission.md) |
+| Confirm the group number | Complete | Group 5, confirmed by the group; filename: `5_term project.zip` |
 
 Verification on the current checkout: `.venv/bin/python -m pytest -q` passed
 **59 tests** after adding the second baseline. All four selected-checkpoint files matched the SHA-256 values in
@@ -93,11 +93,12 @@ provide the original comparison.
   measured results, limitations, and code questions.
 - [x] Record all three members' names and reported actual contributions in
   [docs/contributions.md](docs/contributions.md). Individual cross-module rehearsal remains open.
-- [x] Prepare and inspect `submission/tiger_submission.zip`, with source,
-  tests, configs, documentation, reports, lockfile, processed data, frozen maps,
-  selected/recovery weights, and generation logs. Its internal manifest records
-  each file's SHA-256; a ZIP checksum is provided alongside it.
-- [ ] Group action: submit the ZIP to MyCourseVille before class on **November 5, 2026**.
+- [x] Prepare and inspect `submission/5_term project.zip`, with all source,
+  tests, configs, documentation, reports, lockfile, presentation files, public
+  dataset download links, and 100 real events with matching item metadata.
+  The ZIP includes a SHA-256 manifest; its checksum is provided alongside it.
+  Full weights/data remain in the separate local demo backup.
+- [ ] Group action: one representative submits `5_term project.zip` to MyCourseVille before class on **November 5, 2026**.
   Automated upload is skipped at the user’s request.
 - [ ] Rehearse individual questions across the entire pipeline using the
   [repository walkthrough](docs/repository_walkthrough.md).

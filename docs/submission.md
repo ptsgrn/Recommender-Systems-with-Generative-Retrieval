@@ -1,17 +1,41 @@
 # Source submission and exam demonstration
 
-Run `uv run python -m scripts.package_submission` from the repository root to
-build `submission/tiger_submission.zip`. The packager includes all project
-Python source and tests, configs, docs, reports, dependency files, processed
-data, root ID/embedding artifacts, the selected and recovery checkpoints,
-generation logs, and second-baseline predictions. It excludes raw downloads,
-pretrained encoder caches, virtual environments, Git internals, old archives,
-and temporary verification runs.
+The group is **5**. Submit exactly one file named **`5_term project.zip`**.
+Only one representative submits for the group, before class on **November 5,
+2026**. Upload remains skipped at the user's request.
 
-The ZIP contains `MANIFEST.sha256` for every bundled file. A ZIP SHA-256 sidecar
-and verification report are saved beside it. The packager checks CRCs and each
-file's content hash after writing. Regenerate the ZIP after any final edits to
-member names, contributions, or slides.
+Build the course package from the repository root:
+
+```bash
+uv run python -m scripts.package_submission --group-number 5
+```
+
+The result is `submission/5_term project.zip`, containing:
+
+| Course deliverable | Included files |
+|---|---|
+| Source code | `src/`, `scripts/`, tests, configs, README, dependency manifests, and lockfile |
+| Dataset source and sample | `samples/README.md` with direct download links, 100 real events in `samples/interactions.jsonl`, and matching metadata in `samples/items.jsonl` |
+| Presentation | `docs/oral_exam.pptx`, `docs/oral_exam.pdf`, and speaker notes |
+| Optional supplementary material | Experiment reports, baseline protocol, walkthrough, and contribution records |
+
+The ZIP contains `MANIFEST.sha256` for each bundled file. A ZIP SHA-256 sidecar
+and verification report are saved beside it. The packager checks CRCs and every
+file's content hash. The sidecar is for local verification; the course requires
+only the one ZIP. Regenerate it after final edits.
+
+The course ZIP omits full processed data, trained weights, caches, raw downloads,
+and virtual environments because the stated checklist allows public dataset
+links and a small sample. For the live saved-checkpoint demo, retain the earlier
+`submission/tiger_submission.zip` or create a separate local bundle:
+
+```bash
+uv run python -m scripts.package_submission --group-number 5 --include-artifacts
+```
+
+That optional command creates `submission/5_term project_with_artifacts.zip`.
+It is a local demo backup; the course submission filename remains
+`5_term project.zip`.
 
 ## On the examiner machine
 
@@ -24,9 +48,10 @@ uv run python -m scripts.smoke_test --data-dir tests/fixtures --sid-dir tests/fi
 ```
 
 Dependencies require installation/network access on a fresh machine. The saved
-checkpoint demo in [the walkthrough](repository_walkthrough.md) uses packaged
-processed data and weights and does not require a pretrained Sentence-T5
-download. Recreating embeddings from raw metadata does require the pinned
+checkpoint demo in [the walkthrough](repository_walkthrough.md) requires the
+separate local demo bundle containing processed data and weights. The smaller
+course ZIP supports fixture checks and inspection of saved reports; it does not
+contain the trained checkpoint. Recreating embeddings from raw metadata does require the pinned
 pretrained encoder and source downloads. The package does not promise bitwise
 training continuation across different environments.
 
@@ -36,9 +61,9 @@ The [editable presentation](oral_exam.pptx) and [PDF copy](oral_exam.pdf) includ
 
 ## Remaining actions requiring the group
 
-- Confirm the assignment table; [member contributions](contributions.md) are recorded.
+- Group 5 and [member contributions](contributions.md) are confirmed by the group.
 - Rehearse all modules individually; each person must understand the full code.
-- Upload is **skipped at the user’s request**. The group will submit the ZIP to
+- Upload is **skipped at the user’s request**. One representative will submit `5_term project.zip` to
   MyCourseVille before class on **November 5, 2026**. No submission is claimed.
 - Deliver at most ten minutes of introduction, with approximately fifty minutes
   reserved for questions. Use the contribution slide to describe actual work.

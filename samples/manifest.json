@@ -1,0 +1,14 @@
+{
+  "interaction_records": 100,
+  "item_records": 100,
+  "selection": "first 100 events in processed chronological.jsonl source order",
+  "purpose": "format inspection only; not the experimental subset",
+  "source_sha256": {
+    "chronological.jsonl": "a858aa0d38a370c086dbc121d98a049837a10f3f18b6f520831c34dc55c0272c",
+    "items.jsonl": "2b50e56c8effe9caacfc00bc98ccf450fa7c4fa996ac7e8d4355ac34c4f7fc6d"
+  },
+  "sample_sha256": {
+    "interactions.jsonl": "4a4d7c74877ddbdacc5900d01d7517f0817ccdb620eb189872a9c15cc4ad6682",
+    "items.jsonl": "2fd025700d8ad941514a2349ca0008390fd93e0d1c30c6adc8876188efa44b6e"
+  }
+}
