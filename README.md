@@ -6,7 +6,9 @@ training-only popularity baseline, plus a T5 sequence model and generative retri
 The scope and task ownership are in
 [todo.md](todo.md). Developer B's sequence model and retrieval are described in
 [Developer B: sequence model and retrieval](#developer-b-sequence-model-and-retrieval).
-See [HANDOFF.md](HANDOFF.md) for the completed real-data ID run and integration commands.
+See [HANDOFF.md](HANDOFF.md) for a self-contained ChatGPT presentation prompt with
+the measured data, findings, and limitations, and the
+[engineering handoff](docs/engineering_handoff.md) for run and integration details.
 This is a small teaching implementation, not a reproduction of published scores.
 The bounded training, recovery, evaluation and trace protocol is in
 [docs/experiment.md](docs/experiment.md).

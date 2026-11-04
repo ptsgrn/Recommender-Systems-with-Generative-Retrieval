@@ -1,0 +1,24 @@
+{
+  "purpose": "Descriptive split inspection for the oral-exam handoff; supplements the frozen experiment without rerunning or changing it.",
+  "source": "data/processed/splits.jsonl",
+  "source_sha256": "998000da4f873e1d3433f348da1d3a5292bb06d60b23825aa5513fc3d30e92fb",
+  "users": 2000,
+  "catalog_items": 7154,
+  "retained_events_per_user": {
+    "min": 5,
+    "median": 6.0,
+    "mean": 8.632,
+    "max": 149
+  },
+  "training_distinct_items": 5999,
+  "catalog_items_absent_from_training_events": 1155,
+  "test_targets_absent_from_all_training_events": 728,
+  "test_target_absence_fraction": 0.364,
+  "test_targets_previously_seen_by_same_user": 0,
+  "definitions": {
+    "training_items": "Union of every users train_items, excluding val_item and test_item.",
+    "catalog": "Union of all train_items, val_item and test_item.",
+    "retained_events_per_user": "len(train_items) + 2, before the latest-20 input truncation.",
+    "test_target_absence": "Count users whose test_item is absent from the global training-item union; not a separately evaluated cold-start experiment."
+  }
+}
