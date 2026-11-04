@@ -84,7 +84,7 @@ Use separate token ranges for each code position. With four positions of size 25
 
 Use a stable hash such as SHA-256 modulo 2,000 for user buckets. Python’s process-dependent `hash()` is unsuitable for a saved mapping. Set T5’s decoder start token to PAD. For each target, labels are four ID tokens plus EOS; the training decoder sees the start token followed by the shifted labels. Label padding, if present, is -100.
 
-Encoder tensors have shape `[batch, at_most_82]`; labels have shape `[batch,5]`; logits have shape `[batch,5,vocabulary_size]`. Raw code tuples and offset vocabulary tokens are different representations: name them clearly.
+Encoder tensors have shape `[batch, at_most_82]`; labels have shape `[batch,5]`; logits have shape `[batch,5,vocabulary_size]`. Raw code tuples and offset vocabulary tokens are different representations: name them clearly.s
 
 For collisions, sort item IDs within each identical three-code group and assign suffixes 0,1,2,…; singleton groups receive 0. If a group exceeds 256 items, stop and inspect codebook collapse. If a larger suffix vocabulary is still required, enlarge that range and regenerate the manifest **before** training the recommender. Never truncate or wrap suffixes.
 

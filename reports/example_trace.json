@@ -63,5 +63,36 @@
   ],
   "recommendation": {
     "status": "pending Developer B predictions"
-  }
+  },
+  "observed_item_encoding": {
+    "metadata": {
+      "item_id": "B002MSN3QQ",
+      "title": "Eltamd UV Clear SPF 46, 48-Gram 1.7 oz.",
+      "brand": "EltaMD",
+      "category": "Beauty > Skin Care > Sun > Skin Protection",
+      "price": 22.67,
+      "text": "Title: Eltamd UV Clear SPF 46, 48-Gram 1.7 oz.. Brand: EltaMD. Category: Beauty > Skin Care > Sun > Skin Protection. Price: 22.67."
+    },
+    "embedding_shape": [
+      1,
+      768
+    ],
+    "latent_shape": [
+      1,
+      32
+    ],
+    "learned_codes": [
+      236,
+      227,
+      111
+    ],
+    "collision_suffix": 0,
+    "offset_tokens": [
+      238,
+      485,
+      625,
+      770
+    ]
+  },
+  "metadata_role": "held-out target catalog metadata for inspection; not given to the recommender"
 }
